@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+<!-- BRUTE PRESSE FORM -->
+        <record model="ir.ui.view" id="brute_presse_form_view">
+            <field name="name">brutepresse.form</field>
+            <field name="model">brute.presse</field>
+            <field name="arch" type="xml">
+                <form string="BRUTE PRESSE">
+            		<sheet>
+                        <group>
+                            <field name="dayofdatepr"/>
+                            <field name="datepr"/>
+                            <field name="name"/>
+                            <field name="secteurpr"/>
+                            <field name="societepr"/>
+                            <field name="campagnepr"/>
+                            <field name="versionpr"/>
+                            <field name="format"/>
+                            <field name="type"/>
+                            <field name="page"/>
+                            <field name="prix"/>
+                            <field name="dayforprice"/>
+                        </group>
+    				</sheet>
+    			</form>
+    		</field>
+    	</record>
+<!-- BRUTE PRESSE TREE -->
+        <record model="ir.ui.view" id="brute_presse_tree_view">
+            <field name="name">brutepresse.tree</field>
+            <field name="model">brute.presse</field>
+            <field name="arch" type="xml">
+                <tree string="Brute presse tree">
+                    <field name="datepr"/>
+                    <field name="name"/>
+                    <field name="secteurpr"/>
+                    <field name="societepr"/>
+                    <field name="campagnepr"/>
+                    <field name="versionpr"/>
+                    <field name="format"/>
+                    <field name="type"/>
+                    <field name="page"/>
+                    <field name="prix"/>
+                </tree>
+            </field>
+        </record>
+<!-- BRUTE SEARCH VIEW -->
+        <record model="ir.ui.view" id="brute_presse_search_view">
+            <field name="name">brutepresse.search</field>
+            <field name="model">brute.presse</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="campagnepr"/>
+                    <field name="name"/>
+                    <field name="format"/>
+                    <field name="societepr"/>
+                    <filter string="Ce mois-ci" name="current_month" domain="[('datepr','&lt;',(context_today()+relativedelta(months=1)).strftime('%%Y-%%m-01')), ('datepr','&gt;=',time.strftime('%%Y-%%m-01'))]"/>
+                    <filter string="Cette semaine" domain="[('datepr','&lt;=',(context_today()+relativedelta(weeks=0,day=7,weekday=-1)).strftime('%Y-%m-%d')),('datepr','&gt;=',(context_today()-relativedelta(weeks=1,weekday=0)).strftime('%Y-%m-%d'))]"/>
+                    <separator/>
+                    <filter string="Semaine dernière" name="last_week" domain="[('datepr','&gt;=',((context_today()+relativedelta(weeks=-2,days=1,weekday=0)).strftime('%%Y-%%m-%%d'))),('datepr', '&lt;=', ((context_today()+relativedelta(weeks=-1,weekday=6)).strftime('%%Y-%%m-%%d')))]"/>
+                    <filter string="Mois Dernier" name="prev_month" domain="[('datepr','&gt;=',(context_today()-relativedelta(months=1)).strftime('%%Y-%%m-01')),('datepr','&lt;',time.strftime('%%Y-%%m-01'))]"/>
+                    <separator/>
+                    <filter name="titregroup" string="TITRE" context="{'group_by':'name'}"/>
+                    <separator/>
+                    <filter name="societegroup" string="SOCIETE" context="{'group_by':'societepr'}"/>
+                    <filter name="capagnegroup" string="CAMPAGNE" context="{'group_by':'campagnepr'}"/>
+                    <separator/>
+                    <filter name="telephonie" string="TELEPHONIE" domain="[('secteurpr','=','TELEPHONIE')]"/>
+                    <separator/>
+                    <filter name="boisson" string="BOISSON" domain="[('secteurpr','=','BOISSON')]"/>
+                </search>
+            </field>
+        </record>
+
+<!-- BRUTE GRAPH VIEW -->
+        <record model="ir.ui.view" id="brute_presse_graph_view">
+            <field name="name">brutepresse.graph</field>
+            <field name="model">brute.presse</field>
+            <field name="arch" type="xml">
+                <graph string="Analyse">
+                    <field name="datepr" type="row" interval="day"/>
+                    <field name="campagnepr" type="col"/>
+                    <field name="prix" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+<!-- PM BRUTE VIEW -->
+        <record model="ir.ui.view" id="brute_presse_calendar_view">
+            <field name="name">brutepresse.calendar</field>
+            <field name="model">brute.presse</field>
+            <field name="arch" type="xml">
+                <calendar string="Plan média Presse" date_start="datepr"
+                          color="name">
+                    <field name="campagnepr"/>
+                </calendar>
+            </field>
+        </record>
+
+<!-- PIVOT VIEW -->
+        <record model="ir.ui.view" id="brute_presse_pivot_view">
+            <field name="name">brutepresse.pivot</field>
+            <field name="model">brute.presse</field>
+            <field name="arch" type="xml">
+                <pivot string="Tableau Analyse">
+                    <field name="campagnepr" type="row"/>
+                    <field name="name" type="col"/>
+                    <field name="prix" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+<!-- ACTION BRUTE PRESSE -->
+        <record model="ir.actions.act_window" id="brute_presse_action">
+            <field name="name">BRUTE PRESSE</field>
+            <field name="res_model">brute.presse</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_titregroup':1, 'search_default_current_month':1, 'search_default_last_week':1}</field>
+        </record>
+
+        <!-- top level menu: no parent -->
+        <menuitem id="main_presse_menu" name="PIGE PRESSE" sequence="1"/>
+        <!-- A first level in the left side menu is needed
+             before using action= attribute -->
+        <menuitem id="presse_menu" name="PIGE PRESSE" sequence="1"
+                  parent="main_presse_menu"/>
+
+        <menuitem id="analyse_menu" name="ANALYSE" sequence="2"
+                  parent="main_presse_menu"/>
+
+
+        <menuitem id="paramettre_presse_menu" name="PARAMETTRE" sequence="20"
+                  parent="main_presse_menu"/>
+
+        <menuitem id="brute_presse_menu" name="Brute PRESSE" sequence="10"
+                  parent="presse_menu"
+                  action="brute_presse_action"/>
+
+<!-- LISTE PRESSE FORM VIEW   -->
+        <record model="ir.ui.view" id="liste_presse_form_view">
+            <field name="name">listepresse.form</field>
+            <field name="model">liste.presse</field>
+            <field name="arch" type="xml">
+            	<form string="LISTE PRESSE">
+            		<sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="jourpr"/>
+                            <field name="format"/>
+                            <field name="type"/>
+                            <field name="prixpage"/>
+                            <field name="prixform"/>
+                        </group>
+    				</sheet>
+    			</form>
+    		</field>
+    	</record>
+<!-- LISTE PRESSE FORM TREE -->
+    	<record model="ir.ui.view" id="liste_presse_tree_view">
+            <field name="name">listepresse.tree</field>
+            <field name="model">liste.presse</field>
+            <field name="arch" type="xml">
+                <tree string="LISTE PRESSE">
+                    <field name="name"/>
+                    <field name="format"/>
+                    <field name="type"/>
+                    <field name="prixform"/>
+                </tree>
+            </field>
+        </record>
+<!-- ACTION LISTE PRESSE -->
+        <record model="ir.actions.act_window" id="liste_presse_action">
+            <field name="name">LISTE PRESSE</field>
+            <field name="res_model">liste.presse</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        <menuitem id="liste_presse_menu" name="LISTE PRESSE" sequence="20"
+                  parent="paramettre_presse_menu"
+                  action="liste_presse_action"/>
+
+<!-- ACTION BRUTE PRESSE Analyse graphique -->
+
+        <record model="ir.actions.act_window" id="analy_brute_presse_action">
+            <field name="name">Analyse PRESSE</field>
+            <field name="res_model">brute.presse</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_mode">graph</field>
+            <field name="context">{'search_default_current_month':1, 'search_default_last_week':1}</field>
+        </record>
+
+        <menuitem id="brute_presse_menu_analy" name="Graphique" sequence="1"
+                  parent="analyse_menu"
+                  action="analy_brute_presse_action"/>
+
+<!-- ACTION PM SECTEUR LIBRE -->     
+        <record model="ir.actions.act_window" id="pm_brute_presse_action">
+            <field name="name">Plan média PRESSE</field>
+            <field name="res_model">brute.presse</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_mode">calendar</field>
+            <field name="context">{'search_default_current_month':1, 'search_default_last_week':1}</field>
+        </record>
+
+        <menuitem id="brute_presse_menu_pm" name="Plan média effectif" sequence="2"
+                  parent="analyse_menu"
+                  action="pm_brute_presse_action"/>
+
+<!-- TCD Analyse -->
+
+        <record model="ir.actions.act_window" id="brute_presse_tcd_action">
+            <field name="name">TCD</field>
+            <field name="res_model">brute.presse</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_mode">pivot</field>
+        </record>
+
+        <menuitem id="brute_presse_menu_tcd" name="TCD PRESSE" sequence="3"
+                  parent="analyse_menu"
+                  action="brute_presse_tcd_action"/> 
+
+<!-- MISE A JOUR DONNEE -->
+
+        <record model="ir.ui.view" id="maj_presse_form_view">
+            <field name="name">Mise A jour</field>
+            <field name="model">maj.presse</field>
+            <field name="arch" type="xml">
+                <form string="MISE A JOUR">
+                    <header>
+                        <group>
+                            <button string="PRIX QUOTIDIENNE" type="object" name="prix_definition" class="oe_highlight"/>
+                            <button string="TOUT METTRE A JOUR SUR LES PRIX ACTUELS" type="object" name="prixall_definition"/>
+                        </group>
+                    </header>
+                    <sheet>
+                            <group string="Mise à jour">
+                                <field name="name"/>
+                            </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+<!-- ACTION MISE A JOUR -->
+        <record model="ir.actions.act_window" id="maj_presse_action">
+            <field name="name">Mise A jour</field>
+            <field name="res_model">maj.presse</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="maj_presse_menu" name="MISE A JOUR" sequence="80"
+                  parent="paramettre_presse_menu"
+                  action="maj_presse_action"/>
+
+
+    </data>
+</odoo>

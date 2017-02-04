@@ -1,0 +1,1036 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+<!-- VIEW FORM LISTE TELE -->
+
+        <record model="ir.ui.view" id="liste_tele_form_view">
+            <field name="name">listetele.form</field>
+            <field name="model">liste.tv</field>
+            <field name="arch" type="xml">
+                <form string="Liste TV">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="dureetv1"/>
+                            <field name="dureetv2"/>
+                            <field name="emissiontv"/>
+                            <field name="ranglistetele"/>
+                            <field name="timeslotprixtele"/>
+                            <field name="prixtv"/>
+                            <field name="description"/>
+                        </group>                       
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+<!-- VIEW SEARCH LISTE TELE -->
+
+        <record model="ir.ui.view" id="liste_tele_search_view">
+            <field name="name">listetele.search</field>
+            <field name="model">liste.tv</field>
+            <field name="arch" type="xml">
+                <search>
+                    <filter name="chainelistegroup" string="CHAINE" context="{'group_by':'name'}"/>
+                    <field name="name"/>
+                    <field name="emissiontv"/>
+                    <field name="dureetv1"/>
+                    <field name="dureetv2"/>
+                </search>
+            </field>
+        </record>
+
+<!-- VIEW TREE LISTE TELE -->
+
+        <record model="ir.ui.view" id="liste_tele_tree_view">
+            <field name="name">listetele.tree</field>
+            <field name="model">liste.tv</field>
+            <field name="arch" type="xml">
+                <tree string="Course Tree">
+                    <field name="name"/>
+                    <field name="emissiontv"/>
+                    <field name="dureetv1"/>
+                    <field name="dureetv2"/>
+                    <field name="prixtv"/>
+                </tree>
+            </field>
+        </record>
+
+<!-- ACTION LISTE TELE -->
+        <!--
+            The following tag is an action definition for a "window action",
+            that is an action opening a view or a set of views
+        -->
+        <record model="ir.actions.act_window" id="liste_tele_action">
+            <field name="name">LISTE TELE</field>
+            <field name="res_model">liste.tv</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_chainelistegroup':1}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Créez votre liste de prix TV ici.
+                </p>
+            </field>
+        </record>
+
+
+<!-- MENU REHETRA -->
+        <!-- top level menu: no parent -->
+        <menuitem id="main_tele_menu" name="PIGE TV" sequence="3"/>
+        <!-- A first level in the left side menu is needed
+             before using action= attribute -->
+        <menuitem id="pige_tele_menu" name="PIGE TV"
+                  parent="main_tele_menu"/>
+
+        <menuitem id="tele_telephonie" name="SECTEUR TELEPHONIE"
+                  parent="main_tele_menu"/>
+
+        <menuitem id="tele_boisson" name="SECTEUR BOISSON"
+                  parent="main_tele_menu"/>
+
+        <menuitem id="tele_savonnerie" name="SECTEUR SAVONNERIE"
+                  parent="main_tele_menu"/>
+
+        <menuitem id="tele_libre" name="SECTEUR LIBRE"
+                  parent="main_tele_menu"/>
+
+        <menuitem id="mediametrie_menu" name="Audience TV"
+                  parent="main_audience_menu"/>
+
+        <menuitem id="paramettretele_menu" name="PARAMETTRE" sequence="50"
+                  parent="main_tele_menu"/>
+<!-- MENU AVEC ACTION -->
+        <menuitem id="liste_tele_menu" name="LISTE PRIX TV" sequence="50" parent="paramettretele_menu"
+                  action="liste_tele_action"/>
+        <!-- Full id location:
+             action="openacademy.course_list_action"
+             It is not required when it is the same module -->
+
+<!-- BRUTE  TELE  form view -->
+        <record model="ir.ui.view" id="brute_tele_form_view">
+            <field name="name">brutetele.form</field>
+            <field name="model">brute.tele</field>
+            <field name="arch" type="xml">
+                <form string="Brute TELE">
+                    <sheet>
+                            <group string="Resultat de pige">
+                                <field name="dayofdatetv"/>
+                                <field name="date"/>
+                                <field name="name"/>
+                                <field name="secteurtele"/>
+                                <field name="societetele"/>
+                                <field name="typetele"/>
+                                <field name="emissiontele"/>
+                                <field name="campagnetele"/>
+                                <field name="versiontele"/>
+                                <field name="rangtele"/>
+                                <field name="timeslotgrp"/>
+                                <field name="dureetele"/>
+                            </group>
+                            <group string="Valeurs">
+                                <field name="prixtele"/>
+                                <field name="grpens"/>
+                                <field name="grpcsp"/>
+                                <field name="grppopact"/>
+                                <field name="grpjeune"/>
+                                <field name="grpmf"/>
+                            </group>
+                    </sheet>
+                        <group>
+                            <field name="moisgrp"/>
+                            <field name="dayforgrp"/>
+                            <field name="timeofdatetv"/>
+                            <field name="timeslottele"/>
+                        </group>
+                </form>
+            </field>
+        </record>
+
+<!-- SEARCH VIEW BRUTE TELE -->
+
+        <record model="ir.ui.view" id="brute_tele_search_view">
+            <field name="name">brutetele.search</field>
+            <field name="model">brute.tele</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="campagnetele"/>
+                    <field name="societetele"/>
+                    <field name="name"/>
+                    <field name="secteurtele"/>
+                    <field name="emissiontele"/>
+                    <filter string="Ce mois-ci" name="current_month" domain="[('date','&lt;',(context_today()+relativedelta(months=1)).strftime('%%Y-%%m-01')), ('date','&gt;=',time.strftime('%%Y-%%m-01'))]"/>
+                    <filter string="Mois Dernier" name="prev_month" domain="[('date','&gt;=',(context_today()-relativedelta(months=1)).strftime('%%Y-%%m-01')),('date','&lt;',time.strftime('%%Y-%%m-01'))]"/>
+                    <separator/>
+                    <filter string="Semaine dernière" name="semainederniere" domain="[('date','&gt;=',((context_today()+relativedelta(weeks=-2,days=1,weekday=0)).strftime('%%Y-%%m-%%d'))),('date', '&lt;=', ((context_today()+relativedelta(weeks=-1,weekday=6)).strftime('%%Y-%%m-%%d')))]"/>
+                    <separator/>
+                    <filter name="chainegroup" string="CHAINE" context="{'group_by':'name'}"/>
+                    <separator/>
+                    <filter name="campagnegroup" string="CAMPAGNE" context="{'group_by':'campagnetele'}"/>
+                    <filter name="spot" string="SPOT" domain="[('typetele','=','SPOT')]"/>
+                    <filter name="billboardavant" string="Billboard" domain="[('typetele','!=','SPOT')]"/>
+                    <separator/>
+                    <filter name="telephonie" string="TELEPHONIE" domain="[('secteurtele','=','TELEPHONIE')]"/>
+                    <separator/>
+                    <filter name="boissongazeuse" string="BOISSON GAZEUSE" domain="[('secteurtele','=','BOISSON GAZEUSE')]"/>
+                    <filter name="boissonnouveau" string="BOISSON NOUVEAU" domain="[('secteurtele','=','BOISSON NOUVEAU')]"/>
+                    <separator/>
+                    <filter name="savondur" string="SAVON DUR" domain="[('secteurtele','=','SAVON DUR')]"/>
+                    <filter name="savonpoudre" string="SAVON POUDRE" domain="[('secteurtele','=','SAVON POUDRE')]"/>
+                    <filter name="savonliquide" string="SAVON LIQUIDE" domain="[('secteurtele','=','SAVON LIQUIDE')]"/>
+                </search>
+            </field>
+        </record>
+
+<!-- BRUTE TELE tree/list view -->
+        <record model="ir.ui.view" id="brute_tele_tree_view">
+            <field name="name">brutetele.tree</field>
+            <field name="model">brute.tele</field>
+            <field name="arch" type="xml">
+                <tree string="Brute TV Tree">
+                    <field name="date"/>
+                    <field name="name"/>
+                    <field name="secteurtele"/>
+                    <field name="societetele"/>
+                    <field name="typetele"/>
+                    <field name="emissiontele"/>
+                    <field name="campagnetele"/>
+                    <field name="grpens"/>
+                    <field name="grpcsp"/>
+                    <field name="grppopact"/>
+                    <field name="grpjeune"/>
+                    <field name="grpmf"/>
+                    <field name="prixtele"/>
+                </tree>
+            </field>
+        </record>
+<!-- BRUTE GRAPH VIEW-->
+        <record model="ir.ui.view" id="brute_tele_graph_view">
+            <field name="name">brutetele.graph</field>
+            <field name="model">brute.tele</field>
+            <field name="arch" type="xml">
+                <graph string="Analyse">
+                    <field name="date" type="row" interval="day"/>
+                    <field name="campagnetele" type="row"/>
+                    <field name="prixtele" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+<!-- PIVOT VIEW -->
+        <record model="ir.ui.view" id="brute_tele_pivot_view">
+            <field name="name">brutetele.pivot</field>
+            <field name="model">brute.tele</field>
+            <field name="arch" type="xml">
+                <pivot string="TCD">
+                    <field name="campagnetele" type="row"/>
+                    <field name="name" type="col"/>
+                    <field name="prixtele" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+<!-- calendar view -->
+
+        <record model="ir.ui.view" id="brute_tele_calendar_view">
+            <field name="name">brutetele.calendar</field>
+            <field name="model">brute.tele</field>
+            <field name="arch" type="xml">
+                <calendar string="Plan média" date_start="date" date_stop="date" mode="month"
+                          color="campagnetele">
+                    <field name="campagnetele"/>
+                </calendar>
+            </field>
+        </record>
+
+<!-- ACTION BRUTE -->
+
+        <record model="ir.actions.act_window" id="brute_tele_list_action">
+            <field name="name">BRUTE TV</field>
+            <field name="res_model">brute.tele</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_mode">tree,form,graph,calendar,search</field>
+            <field name="context">{'search_default_campagnegroup':1,'search_default_spot':1,'search_default_current_month':1,'search_default_semainederniere':1}</field>
+        </record>
+
+        <menuitem id="brute_tele_menu" name="BRUTE TV" sequence="0"
+                  parent="pige_tele_menu"
+                  action="brute_tele_list_action"/>
+
+<!-- Analyse graphique TELEPHONIE-->
+
+        <record model="ir.actions.act_window" id="graph_tele_telephonie_action">
+            <field name="name">Graphique</field>
+            <field name="res_model">brute.tele</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_mode">graph</field>
+            <field name="context">{'search_default_telephonie':1,'search_default_spot':1,'search_default_current_month':1,'search_default_semainederniere':1}</field>
+        </record>
+
+        <menuitem id="graph_tele_telephonie_menu" name="Graphique TELEPHONIE" sequence="1"
+                  parent="tele_telephonie"
+                  action="graph_tele_telephonie_action"/>
+
+<!-- VUE PM SECTEUR TELEPHONIE --> 
+
+        <record model="ir.actions.act_window" id="pm_tele_telephonie_action">
+            <field name="name">Plan média</field>
+            <field name="res_model">brute.tele</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_mode">calendar</field>
+            <field name="context">{'search_default_telephonie':1,'search_default_spot':1,'search_default_current_month':1,'search_default_semainederniere':1}</field>
+        </record>
+
+        <menuitem id="pm_tele_telephonie_menu" name="Plan média effectif" sequence="2"
+                  parent="tele_telephonie"
+                  action="pm_tele_telephonie_action"/>
+
+<!-- VUE TCD EXPORT EN XLS -->
+
+        <record model="ir.actions.act_window" id="tcd_tele_telephonie_action">
+            <field name="name">TCD</field>
+            <field name="res_model">brute.tele</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_mode">pivot</field>
+            <field name="context">{'search_default_spot':1}</field>
+        </record>
+
+        <menuitem id="tcd_tele_telephonie_menu" name="TCD TV" sequence="3"
+                  parent="pige_tele_menu"
+                  action="tcd_tele_telephonie_action"/>  
+
+<!-- Analyse graphique BOISSON-->
+
+        <record model="ir.actions.act_window" id="graph_tele_boisson_action">
+            <field name="name">Analyse</field>
+            <field name="res_model">brute.tele</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_mode">graph</field>
+            <field name="context">{'search_default_boissongazeuse':1,'search_default_boissonnouveau':1,'search_default_spot':1,'search_default_current_month':1,'search_default_semainederniere':1}</field>
+        </record>
+
+        <menuitem id="graph_tele_boisson_menu" name="Graphique BOISSON" sequence="1"
+                  parent="tele_boisson"
+                  action="graph_tele_boisson_action"/>
+
+<!-- VUE PM SECTEUR BOISSON -->     
+        <record model="ir.actions.act_window" id="pm_tele_boisson_action">
+            <field name="name">Plan média</field>
+            <field name="res_model">brute.tele</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_mode">calendar</field>
+            <field name="context">{'search_default_boissongazeuse':1,'search_default_boissonnouveau':1,'search_default_spot':1,'search_default_current_month':1,'search_default_semainederniere':1}</field>
+        </record>
+
+        <menuitem id="pm_tele_boisson_menu" name="Plan média effectif" sequence="2"
+                  parent="tele_boisson"
+                  action="pm_tele_boisson_action"/>
+
+<!-- Analyse graphique SAVONNERIE-->
+
+        <record model="ir.actions.act_window" id="graph_tele_savonnerie_action">
+            <field name="name">Analyse</field>
+            <field name="res_model">brute.tele</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_mode">graph</field>
+            <field name="context">{'search_default_savondur':1,'search_default_savonliquide':1,'search_default_savonpoudre':1,'search_default_spot':1,'search_default_current_month':1,'search_default_semainederniere':1}</field>
+        </record>
+
+        <menuitem id="graph_tele_savonnerie_menu" name="Graphique SAVONNERIE" sequence="1"
+                  parent="tele_savonnerie"
+                  action="graph_tele_savonnerie_action"/>
+
+<!-- VUE PM SECTEUR SAVONNERIE -->  
+
+        <record model="ir.actions.act_window" id="pm_tele_savonnerie_action">
+            <field name="name">Plan média</field>
+            <field name="res_model">brute.tele</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_mode">calendar</field>
+            <field name="context">{'search_default_savondur':1,'search_default_savonliquide':1,'search_default_savonpoudre':1,'search_default_spot':1,'search_default_current_month':1,'search_default_semainederniere':1}</field>
+        </record>
+
+        <menuitem id="pm_tele_savonnerie_menu" name="Plan média effectif" sequence="2"
+                  parent="tele_savonnerie"
+                  action="pm_tele_savonnerie_action"/>
+
+
+<!-- Analyse graphique LIBRE-->
+
+        <record model="ir.actions.act_window" id="graph_tele_libre_action">
+            <field name="name">Analyse</field>
+            <field name="res_model">brute.tele</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_mode">graph</field>
+            <field name="context">{'search_default_spot':1,'search_default_current_month':1,'search_default_semainederniere':1}</field>
+        </record>
+
+        <menuitem id="graph_tele_libre_menu" name="Graphique LIBRE" sequence="1"
+                  parent="tele_libre"
+                  action="graph_tele_libre_action"/>
+
+<!-- ACTION PM SECTEUR LIBRE -->
+        <record model="ir.actions.act_window" id="pm_tele_libre_action">
+            <field name="name">Analyse</field>
+            <field name="res_model">brute.tele</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_mode">calendar</field>
+            <field name="context">{'search_default_spot':1}</field>
+        </record>
+
+        <menuitem id="pm_tele_libre_menu" name="Plan média effectif" sequence="2"
+                  parent="tele_libre"
+                  action="pm_tele_libre_action"/>
+
+<!-- VIEW campagne liste TV en cas d'erreur de saisie -->
+
+        <record model="ir.ui.view" id="liste_campagne_form_view">
+            <field name="name">Liste Campagne</field>
+            <field name="model">liste.campagne</field>
+            <field name="arch" type="xml">
+                <form string="LISTE CAMPAGNE">
+                    <header>
+                        <button string="MAJ SOCIETE SECTEUR" type="object" name="campagne_definition" class="oe_highlight"/>
+                        <button string="MAJ DUREE" type="object" name="dureeliste_definition"/>
+                        <button string="MAJ CAMPAGNE" type="object" name="modification_campagne"/>
+                    </header>
+                    <sheet>
+                            <group string="Modification Secteur et Societe">
+                                <field name="campagneliste"/>
+                                <field name="secteurliste"/>
+                                <field name="societeliste"/>
+                                <field name="dureeliste"/>
+                            </group>
+                            <group string="Modification designation Campagne">
+                                <field name="sicampagnebrute"/>
+                                <field name="alorscampagnebrute"/>
+                            </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+<!-- Liste campagne tree/list view -->
+        <record model="ir.ui.view" id="liste_campagne_tree_view">
+            <field name="name">Liste Campagne</field>
+            <field name="model">liste.campagne</field>
+            <field name="arch" type="xml">
+                <tree string="Liste Campagne Tree">
+                    <field name="secteurliste"/>
+                    <field name="societeliste"/>
+                    <field name="campagneliste"/>
+                    <field name="dureeliste"/>
+                </tree>
+            </field>
+        </record>
+
+<!-- ACTION LISTE CAMPAGNE -->
+        <record model="ir.actions.act_window" id="liste_campagne_action">
+            <field name="name">Liste Campagne</field>
+            <field name="res_model">liste.campagne</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="liste_campagne_menu" name="Liste Campagne" sequence="70"
+                  parent="paramettretele_menu"
+                  action="liste_campagne_action"/>
+
+
+<!-- VIEW MEDIAMETRIE ENSEMBLE -->
+
+        <record model="ir.ui.view" id="mm_ensemble_form_view">
+            <field name="name">MM Ensemble</field>
+            <field name="model">mm.ensemble</field>
+            <field name="arch" type="xml">
+                <form string="Penetration TV">
+                    <sheet>
+                        <group string="MEDIAMETRIE TV">
+                            <field name="jour"/>
+                            <field name="name"/>
+                            <field name="slotens"/>
+                            <field name="tauxens"/>
+                            <field name="mois"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+<!-- VIEW MEDIAMETRIE ENSEMBLE GRAPH VIEW-->
+        <record model="ir.ui.view" id="mm_ensemble_graph_view">
+            <field name="name">MM Ensemble Graph</field>
+            <field name="model">mm.ensemble</field>
+            <field name="arch" type="xml">
+                <graph string="Analyse">
+                    <field name="slotens" type="row"/>
+                    <field name="name" type="row"/>
+                    <field name="tauxens" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+<!-- VIEW SEARCH MEDIAMETRIE ENSEMBLE -->
+
+        <record model="ir.ui.view" id="mm_ensemble_search_view">
+            <field name="name">MM Ensemble Search</field>
+            <field name="model">mm.ensemble</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="slotens"/>
+                    <field name="tauxens"/>
+                    <field name="jour"/>
+                    <field name="mois"/>
+                    <filter name="sanstempsmort" string="PAS 0h00 à 5h00" domain="[('slotens','!=','0h00-0h15'),('slotens','!=','0h15-0h30'),('slotens','!=','0h30-0h45'),('slotens','!=','0h45-1h00'),('slotens','!=','1h00-1h15'),('slotens','!=','1h15-1h30'),('slotens','!=','1h30-1h45'),('slotens','!=','1h45-2h00'),('slotens','!=','2h00-2h15'),('slotens','!=','2h15-2h30'),('slotens','!=','2h30-2h45'),('slotens','!=','2h45-3h00'),('slotens','!=','3h00-3h15'),('slotens','!=','3h15-3h30'),('slotens','!=','3h30-3h45'),('slotens','!=','3h45-4h00'),('slotens','!=','4h00-4h15'),('slotens','!=','4h15-4h30'),('slotens','!=','4h30-4h45'),('slotens','!=','4h45-5h00')]"/>
+                    <separator/>
+                    <filter name="lundi" string="LUNDI" domain="[('jour','=','lundi')]"/>
+                    <filter name="mardi" string="MARDI" domain="[('jour','=','mardi')]"/>
+                    <filter name="mercredi" string="MERCREDI" domain="[('jour','=','mercredi')]"/>
+                    <filter name="jeudi" string="JEUDI" domain="[('jour','=','jeudi')]"/>
+                    <filter name="vendredi" string="VENDREDI" domain="[('jour','=','vendredi')]"/>
+                    <filter name="samedi" string="SAMEDI" domain="[('jour','=','samedi')]"/>
+                    <filter name="dimanche" string="DIMANCHE" domain="[('jour','=','dimanche')]"/>
+                </search>
+            </field>
+        </record>
+
+<!-- VIEW MEDIAMETRIE ENSEMBLE tree/list view -->
+        <record model="ir.ui.view" id="mm_ensemble_tree_view">
+            <field name="name">MM Ensemble</field>
+            <field name="model">mm.ensemble</field>
+            <field name="arch" type="xml">
+                <tree string="Penetration TV">
+                    <field name="jour"/>
+                    <field name="name"/>
+                    <field name="slotens"/>
+                    <field name="tauxens"/>
+                    <field name="mois"/>
+                </tree>
+            </field>
+        </record>
+
+<!-- ACTION MEDIAMETRIE ENSEMBLE -->
+        <record model="ir.actions.act_window" id="mm_ensemble_action">
+            <field name="name">MM Ensemble</field>
+            <field name="res_model">mm.ensemble</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">graph,tree,form</field>
+            <field name="context">{'search_default_sanstempsmort':1}</field>
+        </record>
+
+        <menuitem id="mm_ensemble_menu" name="ENSEMBLE TV" sequence="1"
+                  parent="mediametrie_menu"
+                  action="mm_ensemble_action"/>
+
+
+<!-- VIEW MEDIAMETRIE CSP -->
+
+        <record model="ir.ui.view" id="mm_csp_form_view">
+            <field name="name">MM CSP</field>
+            <field name="model">mm.csp</field>
+            <field name="arch" type="xml">
+                <form string="Penetration TV">
+                    <sheet>
+                        <group string="MEDIAMETRIE TV">
+                            <field name="jour"/>
+                            <field name="name"/>
+                            <field name="slotens"/>
+                            <field name="tauxens"/>
+                            <field name="mois"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+<!-- VIEW MEDIAMETRIE CSP GRAPH VIEW-->
+        <record model="ir.ui.view" id="mm_csp_graph_view">
+            <field name="name">MM CSP Graph</field>
+            <field name="model">mm.csp</field>
+            <field name="arch" type="xml">
+                <graph string="Analyse">
+                    <field name="slotens" type="row"/>
+                    <field name="name" type="row"/>
+                    <field name="tauxens" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+<!-- VIEW SEARCH MEDIAMETRIE CSP -->
+
+        <record model="ir.ui.view" id="mm_csp_search_view">
+            <field name="name">MM CSP Search</field>
+            <field name="model">mm.csp</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="slotens"/>
+                    <field name="tauxens"/>
+                    <field name="jour"/>
+                    <field name="mois"/>
+                    <filter name="sanstempsmort" string="PAS 0h00 à 5h00" domain="[('slotens','!=','0h00-0h15'),('slotens','!=','0h15-0h30'),('slotens','!=','0h30-0h45'),('slotens','!=','0h45-1h00'),('slotens','!=','1h00-1h15'),('slotens','!=','1h15-1h30'),('slotens','!=','1h30-1h45'),('slotens','!=','1h45-2h00'),('slotens','!=','2h00-2h15'),('slotens','!=','2h15-2h30'),('slotens','!=','2h30-2h45'),('slotens','!=','2h45-3h00'),('slotens','!=','3h00-3h15'),('slotens','!=','3h15-3h30'),('slotens','!=','3h30-3h45'),('slotens','!=','3h45-4h00'),('slotens','!=','4h00-4h15'),('slotens','!=','4h15-4h30'),('slotens','!=','4h30-4h45'),('slotens','!=','4h45-5h00')]"/>
+                    <separator/>
+                    <filter name="semaine" string="SEMAINE" domain="[('jour','=','Semaine')]"/>
+                    <filter name="week" string="Week-end" domain="[('jour','=','Week-end')]"/>
+                </search>
+            </field>
+        </record>
+
+<!-- VIEW MEDIAMETRIE CSP tree/list view -->
+        <record model="ir.ui.view" id="mm_csp_tree_view">
+            <field name="name">MM CSP</field>
+            <field name="model">mm.csp</field>
+            <field name="arch" type="xml">
+                <tree string="Penetration TV">
+                    <field name="jour"/>
+                    <field name="name"/>
+                    <field name="slotens"/>
+                    <field name="tauxens"/>
+                    <field name="mois"/>
+                </tree>
+            </field>
+        </record>
+
+<!-- ACTION MEDIAMETRIE CSP -->
+        <record model="ir.actions.act_window" id="mm_csp_action">
+            <field name="name">MM CSP</field>
+            <field name="res_model">mm.csp</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">graph,tree,form</field>
+            <field name="context">{'search_default_sanstempsmort':1}</field>
+        </record>
+
+        <menuitem id="mm_csp_menu" name="CSP+ TV" sequence="2"
+                  parent="mediametrie_menu"
+                  action="mm_csp_action"/>
+
+<!-- VIEW MEDIAMETRIE POPACT -->
+
+        <record model="ir.ui.view" id="mm_popact_form_view">
+            <field name="name">MM POP ACTIVE</field>
+            <field name="model">mm.popact</field>
+            <field name="arch" type="xml">
+                <form string="Penetration TV">
+                    <sheet>
+                        <group string="MEDIAMETRIE TV">
+                            <field name="jour"/>
+                            <field name="name"/>
+                            <field name="slotens"/>
+                            <field name="tauxens"/>
+                            <field name="mois"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+<!-- VIEW MEDIAMETRIE POPACT GRAPH VIEW-->
+        <record model="ir.ui.view" id="mm_popact_graph_view">
+            <field name="name">MM POPACT Graph</field>
+            <field name="model">mm.popact</field>
+            <field name="arch" type="xml">
+                <graph string="Analyse">
+                    <field name="slotens" type="row"/>
+                    <field name="name" type="row"/>
+                    <field name="tauxens" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+<!-- VIEW SEARCH MEDIAMETRIE POPACT -->
+
+        <record model="ir.ui.view" id="mm_popact_search_view">
+            <field name="name">MM POPACT Search</field>
+            <field name="model">mm.popact</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="slotens"/>
+                    <field name="tauxens"/>
+                    <field name="jour"/>
+                    <field name="mois"/>
+                    <filter name="sanstempsmort" string="PAS 0h00 à 5h00" domain="[('slotens','!=','0h00-0h15'),('slotens','!=','0h15-0h30'),('slotens','!=','0h30-0h45'),('slotens','!=','0h45-1h00'),('slotens','!=','1h00-1h15'),('slotens','!=','1h15-1h30'),('slotens','!=','1h30-1h45'),('slotens','!=','1h45-2h00'),('slotens','!=','2h00-2h15'),('slotens','!=','2h15-2h30'),('slotens','!=','2h30-2h45'),('slotens','!=','2h45-3h00'),('slotens','!=','3h00-3h15'),('slotens','!=','3h15-3h30'),('slotens','!=','3h30-3h45'),('slotens','!=','3h45-4h00'),('slotens','!=','4h00-4h15'),('slotens','!=','4h15-4h30'),('slotens','!=','4h30-4h45'),('slotens','!=','4h45-5h00')]"/>
+                    <separator/>
+                    <filter name="semaine" string="SEMAINE" domain="[('jour','=','Semaine')]"/>
+                    <filter name="week" string="Week-end" domain="[('jour','=','Week-end')]"/>
+                </search>
+            </field>
+        </record>
+
+<!-- VIEW MEDIAMETRIE POPACTIVE tree/list view -->
+        <record model="ir.ui.view" id="mm_popact_tree_view">
+            <field name="name">MM POP ACTIVE</field>
+            <field name="model">mm.popact</field>
+            <field name="arch" type="xml">
+                <tree string="Penetration TV">
+                    <field name="jour"/>
+                    <field name="name"/>
+                    <field name="slotens"/>
+                    <field name="tauxens"/>
+                    <field name="mois"/>
+                </tree>
+            </field>
+        </record>
+
+<!-- ACTION MEDIAMETRIE POPACTIVE -->
+        <record model="ir.actions.act_window" id="mm_popact_action">
+            <field name="name">MM POP ACTIVE</field>
+            <field name="res_model">mm.popact</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">graph,tree,form</field>
+            <field name="context">{'search_default_sanstempsmort':1}</field>
+        </record>
+
+        <menuitem id="mm_popact_menu" name="HOMME ACTIF TV" sequence="3"
+                  parent="mediametrie_menu"
+                  action="mm_popact_action"/>
+
+
+<!-- VIEW MEDIAMETRIE JEUNE -->
+
+        <record model="ir.ui.view" id="mm_jeune_form_view">
+            <field name="name">MM JEUNE</field>
+            <field name="model">mm.jeune</field>
+            <field name="arch" type="xml">
+                <form string="Penetration TV">
+                    <sheet>
+                        <group string="MEDIAMETRIE TV">
+                            <field name="jour"/>
+                            <field name="name"/>
+                            <field name="slotens"/>
+                            <field name="tauxens"/>
+                            <field name="mois"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+<!-- VIEW MEDIAMETRIE JEUNE GRAPH VIEW-->
+        <record model="ir.ui.view" id="mm_jeune_graph_view">
+            <field name="name">MM JEUNE Graph</field>
+            <field name="model">mm.jeune</field>
+            <field name="arch" type="xml">
+                <graph string="Analyse">
+                    <field name="slotens" type="row"/>
+                    <field name="name" type="row"/>
+                    <field name="tauxens" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+<!-- VIEW SEARCH MEDIAMETRIE JEUNE -->
+
+        <record model="ir.ui.view" id="mm_jeune_search_view">
+            <field name="name">MM JEUNE Search</field>
+            <field name="model">mm.jeune</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="slotens"/>
+                    <field name="tauxens"/>
+                    <field name="jour"/>
+                    <field name="mois"/>
+                    <filter name="sanstempsmort" string="PAS 0h00 à 5h00" domain="[('slotens','!=','0h00-0h15'),('slotens','!=','0h15-0h30'),('slotens','!=','0h30-0h45'),('slotens','!=','0h45-1h00'),('slotens','!=','1h00-1h15'),('slotens','!=','1h15-1h30'),('slotens','!=','1h30-1h45'),('slotens','!=','1h45-2h00'),('slotens','!=','2h00-2h15'),('slotens','!=','2h15-2h30'),('slotens','!=','2h30-2h45'),('slotens','!=','2h45-3h00'),('slotens','!=','3h00-3h15'),('slotens','!=','3h15-3h30'),('slotens','!=','3h30-3h45'),('slotens','!=','3h45-4h00'),('slotens','!=','4h00-4h15'),('slotens','!=','4h15-4h30'),('slotens','!=','4h30-4h45'),('slotens','!=','4h45-5h00')]"/>
+                    <separator/>
+                    <filter name="semaine" string="SEMAINE" domain="[('jour','=','Semaine')]"/>
+                    <filter name="week" string="Week-end" domain="[('jour','=','Week-end')]"/>
+                </search>
+            </field>
+        </record>
+
+<!-- VIEW MEDIAMETRIE JEUNE tree/list view -->
+        <record model="ir.ui.view" id="mm_jeune_tree_view">
+            <field name="name">MM JEUNE</field>
+            <field name="model">mm.jeune</field>
+            <field name="arch" type="xml">
+                <tree string="Penetration TV">
+                    <field name="jour"/>
+                    <field name="name"/>
+                    <field name="slotens"/>
+                    <field name="tauxens"/>
+                    <field name="mois"/>
+                </tree>
+            </field>
+        </record>
+
+<!-- ACTION MEDIAMETRIE JEUNE -->
+        <record model="ir.actions.act_window" id="mm_jeune_action">
+            <field name="name">MM JEUNE</field>
+            <field name="res_model">mm.jeune</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">graph,tree,form</field>
+            <field name="context">{'search_default_sanstempsmort':1}</field>
+        </record>
+
+        <menuitem id="mm_jeune_menu" name="JEUNE TV" sequence="4"
+                  parent="mediametrie_menu"
+                  action="mm_jeune_action"/>
+
+<!-- VIEW MEDIAMETRIE MERE DE FAMILLE -->
+
+        <record model="ir.ui.view" id="mm_mf_form_view">
+            <field name="name">MM MERE DE FAMILLE</field>
+            <field name="model">mm.mf</field>
+            <field name="arch" type="xml">
+                <form string="Penetration TV">
+                    <sheet>
+                        <group string="MEDIAMETRIE TV">
+                            <field name="jour"/>
+                            <field name="name"/>
+                            <field name="slotens"/>
+                            <field name="tauxens"/>
+                            <field name="mois"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+<!-- VIEW MEDIAMETRIE MF GRAPH VIEW-->
+        <record model="ir.ui.view" id="mm_mf_graph_view">
+            <field name="name">MM MF Graph</field>
+            <field name="model">mm.mf</field>
+            <field name="arch" type="xml">
+                <graph string="Analyse">
+                    <field name="slotens" type="row"/>
+                    <field name="name" type="row"/>
+                    <field name="tauxens" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+<!-- VIEW SEARCH MEDIAMETRIE MF -->
+
+        <record model="ir.ui.view" id="mm_mf_search_view">
+            <field name="name">MM MF Search</field>
+            <field name="model">mm.mf</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="slotens"/>
+                    <field name="tauxens"/>
+                    <field name="jour"/>
+                    <field name="mois"/>
+                    <filter name="sanstempsmort" string="PAS 0h00 à 5h00" domain="[('slotens','!=','0h00-0h15'),('slotens','!=','0h15-0h30'),('slotens','!=','0h30-0h45'),('slotens','!=','0h45-1h00'),('slotens','!=','1h00-1h15'),('slotens','!=','1h15-1h30'),('slotens','!=','1h30-1h45'),('slotens','!=','1h45-2h00'),('slotens','!=','2h00-2h15'),('slotens','!=','2h15-2h30'),('slotens','!=','2h30-2h45'),('slotens','!=','2h45-3h00'),('slotens','!=','3h00-3h15'),('slotens','!=','3h15-3h30'),('slotens','!=','3h30-3h45'),('slotens','!=','3h45-4h00'),('slotens','!=','4h00-4h15'),('slotens','!=','4h15-4h30'),('slotens','!=','4h30-4h45'),('slotens','!=','4h45-5h00')]"/>
+                    <separator/>
+                    <filter name="semaine" string="SEMAINE" domain="[('jour','=','Semaine')]"/>
+                    <filter name="week" string="Week-end" domain="[('jour','=','Week-end')]"/>
+                </search>
+            </field>
+        </record>
+
+<!-- VIEW MEDIAMETRIE MERE DE FAMILLE tree/list view -->
+        <record model="ir.ui.view" id="mm_mf_tree_view">
+            <field name="name">MM MERE DE FAMILLE</field>
+            <field name="model">mm.mf</field>
+            <field name="arch" type="xml">
+                <tree string="Penetration TV">
+                    <field name="jour"/>
+                    <field name="name"/>
+                    <field name="slotens"/>
+                    <field name="tauxens"/>
+                    <field name="mois"/>
+                </tree>
+            </field>
+        </record>
+
+<!-- ACTION MEDIAMETRIE MERE FAMILLE -->
+        <record model="ir.actions.act_window" id="mm_mf_action">
+            <field name="name">MM MERE DE FAMILLE</field>
+            <field name="res_model">mm.mf</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">graph,tree,form</field>
+            <field name="context">{'search_default_sanstempsmort':1}</field>
+        </record>
+
+        <menuitem id="mm_mf_menu" name="MERE DE FAMILLE TV" sequence="5"
+                  parent="mediametrie_menu"
+                  action="mm_mf_action"/>
+
+
+
+
+<!-- SIMULATION  TELE  form view VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVvvvvvvvvvvvvvvvvvvvvvv-->
+        <record model="ir.ui.view" id="simulation_tele_form_view">
+            <field name="name">simulationtele.form</field>
+            <field name="model">simulation.tele</field>
+            <field name="arch" type="xml">
+                <form string="Simulation TELE">
+                    <header>
+                        <button string="SIMULER" type="object" name="simulation_tv_definition" class="oe_highlight"/>
+                    </header>
+                    <sheet>
+                            <group string="Simulation GRP">
+                                <field name="dayofdatetv"/>
+                                <field name="date"/>
+                                <field name="name"/>
+                                <field name="typetele"/>
+                                <field name="emissiontele"/>
+                                <field name="campagnetele"/>
+                                <field name="rangtele"/>
+                                <field name="timeslotgrp"/>
+                                <field name="dureetele"/>
+                            </group>
+                            <group string="Valeurs">
+                                <field name="grpens"/>
+                                <field name="grpcsp"/>
+                                <field name="grppopact"/>
+                                <field name="grpjeune"/>
+                                <field name="grpmf"/>
+                            </group>
+                    </sheet>
+                        <group>
+                            <field name="moisgrp"/>
+                            <field name="timeofdatetv"/>
+                            <field name="timeslottele"/>
+                        </group>
+                </form>
+            </field>
+        </record>
+
+<!-- SEARCH VIEW simulation TELE -->
+
+        <record model="ir.ui.view" id="simulation_tele_search_view">
+            <field name="name">simulationtele.search</field>
+            <field name="model">simulation.tele</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="campagnetele"/>
+                    <filter string="Ce mois-ci" name="current_month" domain="[('date','&lt;',(context_today()+relativedelta(months=1)).strftime('%%Y-%%m-01')), ('date','&gt;=',time.strftime('%%Y-%%m-01'))]"/>
+                    <filter string="Cette semaine" domain="[('date','&lt;=',(context_today()+relativedelta(weeks=0,day=7,weekday=-1)).strftime('%Y-%m-%d')),('date','&gt;=',(context_today()-relativedelta(weeks=1,weekday=0)).strftime('%Y-%m-%d'))]"/>
+                    <separator/>
+                    <filter string="Semaine dernière" domain="[('date','&gt;=',((context_today()+relativedelta(weeks=-2,days=1,weekday=0)).strftime('%%Y-%%m-%%d'))),('date', '&lt;=', ((context_today()+relativedelta(weeks=-1,weekday=6)).strftime('%%Y-%%m-%%d')))]"/>
+                    <filter string="Mois Dernier" name="prev_month" domain="[('date','&gt;=',(context_today()-relativedelta(months=1)).strftime('%%Y-%%m-01')),('date','&lt;',time.strftime('%%Y-%%m-01'))]"/>
+                    <separator/>
+                    <filter name="chainegroup" string="CHAINE" context="{'group_by':'name'}"/>
+                    <separator/>
+                    <filter name="campagnegroup" string="CAMPAGNE" context="{'group_by':'campagnetele'}"/>
+                    <filter name="spot" string="SPOT" domain="[('typetele','=','SPOT')]"/>
+
+                </search>
+            </field>
+        </record>
+
+<!-- simulation TELE tree/list view -->
+        <record model="ir.ui.view" id="simulation_tele_tree_view">
+            <field name="name">simulationtele.tree</field>
+            <field name="model">simulation.tele</field>
+            <field name="arch" type="xml">
+                <tree string="simulation TV Tree">
+                    <field name="date"/>
+                    <field name="name"/>
+                    <field name="typetele"/>
+                    <field name="emissiontele"/>
+                    <field name="campagnetele"/>
+                    <field name="rangtele"/>
+                    <field name="timeslotgrp"/>
+                    <field name="grpens"/>
+                    <field name="grpcsp"/>
+                    <field name="grppopact"/>
+                    <field name="grpjeune"/>
+                    <field name="grpmf"/>
+                </tree>
+            </field>
+        </record>
+
+<!-- calendar view -->
+
+        <record model="ir.ui.view" id="simulation_tele_calendar_view">
+            <field name="name">simulationtele.calendar</field>
+            <field name="model">simulation.tele</field>
+            <field name="arch" type="xml">
+                <calendar string="Plan média" quick_add="name" event_open_popup="True" date_start="date" date_stop="date" mode="month" color="campagnetele">
+                    <field name="campagnetele"/>
+                </calendar>
+            </field>
+        </record>
+
+<!-- ACTION simulation -->
+
+        <record model="ir.actions.act_window" id="simulation_tele_list_action">
+            <field name="name">simulation TV</field>
+            <field name="res_model">simulation.tele</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_mode">calendar,tree,form,search</field>
+            <field name="context">{'search_default_campagnegroup':1}</field>
+        </record>
+
+        <menuitem id="tele_simulation_tele_menu" name="Simulation TV" sequence="0"
+                  parent="simulation_tele_menu"
+                  action="simulation_tele_list_action"/>
+
+
+<!-- MISE A JOUR DONNEE -->
+
+        <record model="ir.ui.view" id="maj_tele_form_view">
+            <field name="name">Mise A jour</field>
+            <field name="model">maj.tele</field>
+            <field name="arch" type="xml">
+                <form string="MISE A JOUR">
+                    <header>
+                        <group>
+                            <button string="MAJ PRIX QUOTIDIENNE" type="object" name="prix_tv_definition" class="oe_highlight"/>
+                            <button string="TOUT METTRE A JOUR SUR LES PRIX ACTUELS" type="object" name="prix_tv_all_definition"/>
+                        </group>
+                        <group>
+                            <button string="GRP ENS" type="object" name="get_grp" class="oe_highlight"/>
+                            <button string="TOUT GRP ENS" type="object" name="get_grp_all"/>
+                        </group>
+                        <group>
+                            <button string="GRP CSP+" type="object" name="get_grp_csp" class="oe_highlight"/>
+                            <button string="TOUT GRP CSP+" type="object" name="get_grp_all_csp"/>
+                        </group>
+                        <group>
+                            <button string="GRP POPACT" type="object" name="get_grp_popact" class="oe_highlight"/>
+                            <button string="TOUT GRP POPACT" type="object" name="get_grp_all_popact"/>
+                        </group>
+                        <group>
+                            <button string="GRP JEUNE" type="object" name="get_grp_jeune" class="oe_highlight"/>
+                            <button string="TOUT GRP JEUNE" type="object" name="get_grp_all_jeune"/>
+                        </group>
+                        <group>
+                            <button string="GRP MF" type="object" name="get_grp_mf" class="oe_highlight"/>
+                            <button string="TOUT GRP MF" type="object" name="get_grp_all_mf"/>
+                        </group>
+                        <group>
+                            <button string="MOFIF DAY FOR GRP" type="object" name="modif_dayforgrp"/>
+                        </group>
+                    </header>
+                    <sheet>
+                            <group string="Mise à jour">
+                                <field name="name"/>
+                            </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+<!-- ACTION MISE A JOUR -->
+        <record model="ir.actions.act_window" id="maj_tele_action">
+            <field name="name">Mise A jour</field>
+            <field name="res_model">maj.tele</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="maj_tele_menu" name="MISE A JOUR" sequence="80"
+                  parent="paramettretele_menu"
+                  action="maj_tele_action"/>
+
+
+
+    </data>
+</odoo>
+

@@ -1,0 +1,59 @@
+<openerp>
+  <data>
+    <!-- explicit list view definition -->
+    <!--
+    <record model="ir.ui.view" id="presse.list">
+      <field name="name">presse list</field>
+      <field name="model">presse.presse</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+    -->
+
+    <!-- actions opening views on models -->
+    <!--
+    <record model="ir.actions.act_window" id="presse.action_window">
+      <field name="name">presse window</field>
+      <field name="res_model">presse.presse</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    -->
+
+    <!-- server action to the one above -->
+    <!--
+    <record model="ir.actions.server" id="presse.action_server">
+      <field name="name">presse server</field>
+      <field name="model_id" ref="model_presse_presse"/>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": self._name,
+        }
+      </field>
+    </record>
+    -->
+
+    <!-- Top menu item -->
+    <!--
+    <menuitem name="presse" id="presse.menu_root"/>
+    -->
+    <!-- menu categories -->
+    <!--
+    <menuitem name="Menu 1" id="presse.menu_1" parent="presse.menu_root"/>
+    <menuitem name="Menu 2" id="presse.menu_2" parent="presse.menu_root"/>
+    -->
+    <!-- actions -->
+    <!--
+    <menuitem name="List" id="presse.menu_1_list" parent="presse.menu_1"
+              action="presse.action_window"/>
+    <menuitem name="Server to list" id="presse" parent="presse.menu_2"
+              action="presse.action_server"/>
+    -->
+  </data>
+</openerp>

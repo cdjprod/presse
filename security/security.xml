@@ -1,0 +1,22 @@
+<odoo>
+    <data>
+        <record id="group_manager" model="res.groups">
+            <field name="name">Pige / Manager</field>
+        </record>
+        <record id="radio_client" model="res.groups">
+            <field name="name">Pige / Radio</field>
+        </record>
+        <record id="radio_mm" model="res.groups">
+            <field name="name">Pige / Radio MM</field>
+        </record>
+        <record id="tele_client" model="res.groups">
+            <field name="name">Pige / Tele</field>
+        </record>
+        <record id="tele_mm" model="res.groups">
+            <field name="name">Pige / Tele MM</field>
+        </record>
+        <record id="presse_client" model="res.groups">
+            <field name="name">Pige / Presse</field>
+        </record>
+    </data>
+</odoo>
