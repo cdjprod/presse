@@ -246,7 +246,7 @@
             <field name="model">brute.radio</field>
             <field name="arch" type="xml">
                 <calendar string="Plan média" date_start="date" date_stop="date"
-                          color="name">
+                          color="campagneradio">
                     <field name="campagneradio"/>
                 </calendar>
             </field>

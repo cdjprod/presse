@@ -75,11 +75,11 @@ class Bruteradio(models.Model):
     def _timeslotradio3_definition(self):
         for r in self:
             if '03:00:00' <= r.timeofdaterd <= '06:00:00':
-                r.timeslotradio = '3H-6H'
+                r.timeslotradio = '03H-06H'
             elif '06:00:00' <= r.timeofdaterd <= '08:59:59':
-                r.timeslotradio = '6H-9H'
+                r.timeslotradio = '06H-09H'
             elif '09:00:00' <= r.timeofdaterd <= '11:59:59':
-                r.timeslotradio = '9H-12H'
+                r.timeslotradio = '09H-12H'
             elif '12:00:00' <= r.timeofdaterd <= '14:59:59':
                 r.timeslotradio = '12H-15H'
             elif '15:00:00' <= r.timeofdaterd <= '17:59:59':
@@ -87,9 +87,9 @@ class Bruteradio(models.Model):
             elif '18:00:00' <= r.timeofdaterd <= '20:59:59':
                 r.timeslotradio = '18H-21H'
             elif '21:00:00' <= r.timeofdaterd <= '23:59:59':
-                r.timeslotradio = '21H-0H'
+                r.timeslotradio = '21H-00H'
             elif '00:00:00' <= r.timeofdaterd <= '02:59:59':
-                r.timeslotradio = '0H-3H'
+                r.timeslotradio = '00H-3H'
             else:
                 r.timeslotradio = 'False'
 
@@ -471,11 +471,11 @@ class Simulationradio(models.Model):
     def _timeslotradio3_definition(self):
         for r in self:
             if '03:00:00' <= r.timeofdaterd <= '06:00:00':
-                r.timeslotradio = '3H-6H'
+                r.timeslotradio = '03H-06H'
             elif '06:00:00' <= r.timeofdaterd <= '08:59:59':
-                r.timeslotradio = '6H-9H'
+                r.timeslotradio = '06H-09H'
             elif '09:00:00' <= r.timeofdaterd <= '11:59:59':
-                r.timeslotradio = '9H-12H'
+                r.timeslotradio = '09H-12H'
             elif '12:00:00' <= r.timeofdaterd <= '14:59:59':
                 r.timeslotradio = '12H-15H'
             elif '15:00:00' <= r.timeofdaterd <= '17:59:59':
@@ -483,9 +483,9 @@ class Simulationradio(models.Model):
             elif '18:00:00' <= r.timeofdaterd <= '20:59:59':
                 r.timeslotradio = '18H-21H'
             elif '21:00:00' <= r.timeofdaterd <= '23:59:59':
-                r.timeslotradio = '21H-0H'
+                r.timeslotradio = '21H-00H'
             elif '00:00:00' <= r.timeofdaterd <= '02:59:59':
-                r.timeslotradio = '0H-3H'
+                r.timeslotradio = '00H-03H'
             else:
                 r.timeslotradio = 'False'
 
@@ -768,6 +768,17 @@ class Miseajour(models.Model):
     @api.multi
     @api.depends()
     def modif_dayforgrp_rd(self):
-        dayforgrp = self.env.cr.execute("UPDATE public.brute_radio SET dayforgrp = 'Semaine'")
-        dayforgrp = self.env.cr.execute("UPDATE public.brute_radio SET dayforgrp = dayofdaterd WHERE brute_radio.dayofdaterd = 'samedi'")
-        dayforgrp = self.env.cr.execute("UPDATE public.brute_radio SET dayforgrp = dayofdaterd WHERE brute_radio.dayofdaterd = 'dimanche'")
+        timeslotradio = self.env.cr.execute("UPDATE public.brute_radio SET timeslotradio = '03H-06H' WHERE brute_radio.timeslotradio = '3H-6H'")
+        timeslotradio = self.env.cr.execute("UPDATE public.brute_radio SET timeslotradio = '06H-09H' WHERE brute_radio.timeslotradio = '6H-9H'")
+        timeslotradio = self.env.cr.execute("UPDATE public.brute_radio SET timeslotradio = '09H-12H' WHERE brute_radio.timeslotradio = '9H-12H'")
+        timeslotradio = self.env.cr.execute("UPDATE public.brute_radio SET timeslotradio = '21H-00H' WHERE brute_radio.timeslotradio = '21H-0H'")
+        timeslotradio = self.env.cr.execute("UPDATE public.brute_radio SET timeslotradio = '00H-03H' WHERE brute_radio.timeslotradio = '0H-3H'")
+
+        timeslotprixradio = self.env.cr.execute("UPDATE public.liste_radio SET timeslotprixradio = '03H-06H' WHERE liste_radio.timeslotprixradio = '3H-6H'")
+        timeslotprixradio = self.env.cr.execute("UPDATE public.liste_radio SET timeslotprixradio = '06H-09H' WHERE liste_radio.timeslotprixradio = '6H-9H'")
+        timeslotprixradio = self.env.cr.execute("UPDATE public.liste_radio SET timeslotprixradio = '09H-12H' WHERE liste_radio.timeslotprixradio = '9H-12H'")
+        timeslotprixradio = self.env.cr.execute("UPDATE public.liste_radio SET timeslotprixradio = '21H-00H' WHERE liste_radio.timeslotprixradio = '21H-0H'")
+        timeslotprixradio = self.env.cr.execute("UPDATE public.liste_radio SET timeslotprixradio = '00H-03H' WHERE liste_radio.timeslotprixradio = '0H-3H'")
+        #dayforgrp = self.env.cr.execute("UPDATE public.brute_radio SET dayforgrp = 'Semaine'")
+        #dayforgrp = self.env.cr.execute("UPDATE public.brute_radio SET dayforgrp = dayofdaterd WHERE brute_radio.dayofdaterd = 'samedi'")
+        #dayforgrp = self.env.cr.execute("UPDATE public.brute_radio SET dayforgrp = dayofdaterd WHERE brute_radio.dayofdaterd = 'dimanche'")

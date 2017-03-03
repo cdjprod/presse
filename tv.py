@@ -77,11 +77,11 @@ class Brutetele(models.Model):
     def _timeslot3_definition(self):
         for r in self:
             if '03:00:00' <= r.timeofdatetv <= '06:00:00':
-                r.timeslottele = '3H-6H'
+                r.timeslottele = '03H-06H'
             elif '06:00:00' <= r.timeofdatetv <= '08:59:59':
-                r.timeslottele = '6H-9H'
+                r.timeslottele = '06H-09H'
             elif '09:00:00' <= r.timeofdatetv <= '11:59:59':
-                r.timeslottele = '9H-12H'
+                r.timeslottele = '09H-12H'
             elif '12:00:00' <= r.timeofdatetv <= '14:59:59':
                 r.timeslottele = '12H-15H'
             elif '15:00:00' <= r.timeofdatetv <= '17:59:59':
@@ -89,9 +89,9 @@ class Brutetele(models.Model):
             elif '18:00:00' <= r.timeofdatetv <= '20:59:59':
                 r.timeslottele = '18H-21H'
             elif '21:00:00' <= r.timeofdatetv <= '23:59:59':
-                r.timeslottele = '21H-0H'
+                r.timeslottele = '21H-00H'
             elif '00:00:00' <= r.timeofdatetv <= '02:59:59':
-                r.timeslottele = '0H-3H'
+                r.timeslottele = '00H-03H'
             else:
                 r.timeslottele = 'False'
 
@@ -486,11 +486,11 @@ class simulationtele(models.Model):
     def _timeslot3_definition(self):
         for r in self:
             if '03:00:00' <= r.timeofdatetv <= '06:00:00':
-                r.timeslottele = '3H-6H'
+                r.timeslottele = '03H-06H'
             elif '06:00:00' <= r.timeofdatetv <= '08:59:59':
-                r.timeslottele = '6H-9H'
+                r.timeslottele = '06H-09H'
             elif '09:00:00' <= r.timeofdatetv <= '11:59:59':
-                r.timeslottele = '9H-12H'
+                r.timeslottele = '09H-12H'
             elif '12:00:00' <= r.timeofdatetv <= '14:59:59':
                 r.timeslottele = '12H-15H'
             elif '15:00:00' <= r.timeofdatetv <= '17:59:59':
@@ -498,9 +498,9 @@ class simulationtele(models.Model):
             elif '18:00:00' <= r.timeofdatetv <= '20:59:59':
                 r.timeslottele = '18H-21H'
             elif '21:00:00' <= r.timeofdatetv <= '23:59:59':
-                r.timeslottele = '21H-0H'
+                r.timeslottele = '21H-00H'
             elif '00:00:00' <= r.timeofdatetv <= '02:59:59':
-                r.timeslottele = '0H-3H'
+                r.timeslottele = '00H-03H'
             else:
                 r.timeslottele = 'False'
 
@@ -779,6 +779,18 @@ class Miseajourtv(models.Model):
     @api.multi
     @api.depends()
     def modif_dayforgrp(self):
-        dayforgrp = self.env.cr.execute("UPDATE public.brute_tele SET dayforgrp = 'Semaine'")
-        dayforgrp = self.env.cr.execute("UPDATE public.brute_tele SET dayforgrp = dayofdatetv WHERE brute_tele.dayofdatetv = 'samedi'")
-        dayforgrp = self.env.cr.execute("UPDATE public.brute_tele SET dayforgrp = dayofdatetv WHERE brute_tele.dayofdatetv = 'dimanche'")
+        timeslottele = self.env.cr.execute("UPDATE public.brute_tele SET timeslottele = '03H-06H' WHERE brute_tele.timeslottele = '3H-6H'")
+        timeslottele = self.env.cr.execute("UPDATE public.brute_tele SET timeslottele = '06H-09H' WHERE brute_tele.timeslottele = '6H-9H'")
+        timeslottele = self.env.cr.execute("UPDATE public.brute_tele SET timeslottele = '09H-12H' WHERE brute_tele.timeslottele = '9H-12H'")
+        timeslottele = self.env.cr.execute("UPDATE public.brute_tele SET timeslottele = '21H-00H' WHERE brute_tele.timeslottele = '21H-0H'")
+        timeslottele = self.env.cr.execute("UPDATE public.brute_tele SET timeslottele = '00H-03H' WHERE brute_tele.timeslottele = '0H-3H'")
+
+        timeslotprixtele = self.env.cr.execute("UPDATE public.liste_tv SET timeslotprixtele = '03H-06H' WHERE liste_tv.timeslotprixtele = '3H-6H'")
+        timeslotprixtele = self.env.cr.execute("UPDATE public.liste_tv SET timeslotprixtele = '06H-09H' WHERE liste_tv.timeslotprixtele = '6H-9H'")
+        timeslotprixtele = self.env.cr.execute("UPDATE public.liste_tv SET timeslotprixtele = '09H-12H' WHERE liste_tv.timeslotprixtele = '9H-12H'")
+        timeslotprixtele = self.env.cr.execute("UPDATE public.liste_tv SET timeslotprixtele = '21H-00H' WHERE liste_tv.timeslotprixtele = '21H-0H'")
+        timeslotprixtele = self.env.cr.execute("UPDATE public.liste_tv SET timeslotprixtele = '00H-03H' WHERE liste_tv.timeslotprixtele = '0H-3H'")
+
+        #dayforgrp = self.env.cr.execute("UPDATE public.brute_tele SET dayforgrp = 'Semaine'")
+        #dayforgrp = self.env.cr.execute("UPDATE public.brute_tele SET dayforgrp = dayofdatetv WHERE brute_tele.dayofdatetv = 'samedi'")
+        #dayforgrp = self.env.cr.execute("UPDATE public.brute_tele SET dayforgrp = dayofdatetv WHERE brute_tele.dayofdatetv = 'dimanche'")
