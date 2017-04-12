@@ -87,13 +87,13 @@
 
         <menuitem id="tele_boisson" name="SECTEUR BOISSON"
                   parent="main_tele_menu"/>
-
+<!--
         <menuitem id="tele_savonnerie" name="SECTEUR SAVONNERIE"
                   parent="main_tele_menu"/>
 
         <menuitem id="tele_libre" name="SECTEUR LIBRE"
                   parent="main_tele_menu"/>
-
+-->
         <menuitem id="mediametrie_menu" name="Audience TV"
                   parent="main_audience_menu"/>
 
@@ -139,6 +139,7 @@
                         <group>
                             <field name="moisgrp"/>
                             <field name="dayforgrp"/>
+                            <field name="annee"/>
                             <field name="timeofdatetv"/>
                             <field name="timeslottele"/>
                         </group>
@@ -331,7 +332,7 @@
                   parent="tele_boisson"
                   action="pm_tele_boisson_action"/>
 
-<!-- Analyse graphique SAVONNERIE-->
+<!-- Analyse graphique SAVONNERIE
 
         <record model="ir.actions.act_window" id="graph_tele_savonnerie_action">
             <field name="name">Analyse</field>
@@ -345,8 +346,8 @@
         <menuitem id="graph_tele_savonnerie_menu" name="Graphique SAVONNERIE" sequence="1"
                   parent="tele_savonnerie"
                   action="graph_tele_savonnerie_action"/>
-
-<!-- VUE PM SECTEUR SAVONNERIE -->  
+-->
+<!-- VUE PM SECTEUR SAVONNERIE   
 
         <record model="ir.actions.act_window" id="pm_tele_savonnerie_action">
             <field name="name">Plan média</field>
@@ -360,9 +361,9 @@
         <menuitem id="pm_tele_savonnerie_menu" name="Plan média effectif" sequence="2"
                   parent="tele_savonnerie"
                   action="pm_tele_savonnerie_action"/>
+-->
 
-
-<!-- Analyse graphique LIBRE-->
+<!-- Analyse graphique LIBRE
 
         <record model="ir.actions.act_window" id="graph_tele_libre_action">
             <field name="name">Analyse</field>
@@ -376,8 +377,8 @@
         <menuitem id="graph_tele_libre_menu" name="Graphique LIBRE" sequence="1"
                   parent="tele_libre"
                   action="graph_tele_libre_action"/>
-
-<!-- ACTION PM SECTEUR LIBRE -->
+-->
+<!-- ACTION PM SECTEUR LIBRE 
         <record model="ir.actions.act_window" id="pm_tele_libre_action">
             <field name="name">Analyse</field>
             <field name="res_model">brute.tele</field>
@@ -390,7 +391,7 @@
         <menuitem id="pm_tele_libre_menu" name="Plan média effectif" sequence="2"
                   parent="tele_libre"
                   action="pm_tele_libre_action"/>
-
+-->
 <!-- VIEW campagne liste TV en cas d'erreur de saisie -->
 
         <record model="ir.ui.view" id="liste_campagne_form_view">

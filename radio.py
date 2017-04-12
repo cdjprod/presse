@@ -29,6 +29,7 @@ class Bruteradio(models.Model):
     timeslotgrp = fields.Char(string="Tranche 15Min", compute="_timeslotradio15_definition", store="True")
     dayforgrp = fields.Char(string="Jour GRP", compute="_get_dayforgrp_rd", store="True")
     moisgrp = fields.Char(string="Mois", compute="_get_moisgrp_rd", store="True")
+    annee = fields.Char(string="Annee", compute="_get_annee", store="True")
 #^^^^^^^pour la semaine dayforgrp
 
     @api.depends('date')
@@ -49,6 +50,15 @@ class Bruteradio(models.Model):
                 r.moisgrp = datetime.strftime(dt_obj,'%B')
             else:
                 r.moisgrp = 'False'
+
+    @api.depends('date')
+    def _get_annee(self):
+        for r in self:
+            dt_obj = datetime.strptime(r.date,'%Y-%m-%d %H:%M:%S')
+            if r.annee == 0:
+                r.annee = datetime.strftime(dt_obj,'%Y')
+            else:
+                r.annee = 'False'
 
     @api.depends('date')
     def _time_definition(self):

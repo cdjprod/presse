@@ -22,7 +22,11 @@
                             <field name="prix"/>
                             <field name="dayforprice"/>
                         </group>
-    				</sheet>
+                    </sheet>
+                    <group>
+                        <field name="mois"/>
+                        <field name="annee"/>
+                    </group>
     			</form>
     		</field>
     	</record>

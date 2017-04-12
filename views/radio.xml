@@ -97,13 +97,13 @@
 
         <menuitem id="radio_boisson" name="SECTEUR BOISSON"
                   parent="main_radio_menu"/>
-
+<!--
         <menuitem id="radio_savonnerie" name="SECTEUR SAVONNERIE"
                   parent="main_radio_menu"/>
 
         <menuitem id="radio_libre" name="SECTEUR LIBRE"
                   parent="main_radio_menu"/>
-
+-->
         <menuitem id="mediametrie_rd_menu" name="Audience Radio"
                   parent="main_audience_menu"/>
 
@@ -149,6 +149,7 @@
                         <group>
                             <field name="moisgrp"/>
                             <field name="dayforgrp"/>
+                            <field name="annee"/>
                             <field name="timeofdaterd"/>
                             <field name="timeslotradio"/>
                         </group>
@@ -341,7 +342,7 @@
                   parent="radio_boisson"
                   action="pm_boisson_action"/>
 
-<!-- Analyse graphique SAVONNERIE-->
+<!-- Analyse graphique SAVONNERIE
 
         <record model="ir.actions.act_window" id="graph_savonnerie_action">
             <field name="name">Analyse</field>
@@ -355,8 +356,8 @@
         <menuitem id="graph_savonnerie_menu" name="Graphique SAVONNERIE" sequence="1"
                   parent="radio_savonnerie"
                   action="graph_savonnerie_action"/>
-
-<!-- VUE PM SECTEUR SAVONNERIE -->  
+-->
+<!-- VUE PM SECTEUR SAVONNERIE   
 
         <record model="ir.actions.act_window" id="pm_savonnerie_action">
             <field name="name">Plan média</field>
@@ -371,8 +372,8 @@
                   parent="radio_savonnerie"
                   action="pm_savonnerie_action"/>
 
-
-<!-- Analyse graphique LIBRE-->
+-->
+<!-- Analyse graphique LIBRE
 
         <record model="ir.actions.act_window" id="graph_libre_action">
             <field name="name">Analyse</field>
@@ -386,8 +387,8 @@
         <menuitem id="graph_libre_menu" name="Graphique LIBRE" sequence="1"
                   parent="radio_libre"
                   action="graph_libre_action"/>
-
-<!-- ACTION PM SECTEUR LIBRE -->
+-->
+<!-- ACTION PM SECTEUR LIBRE 
         <record model="ir.actions.act_window" id="pm_libre_action">
             <field name="name">Analyse</field>
             <field name="res_model">brute.radio</field>
@@ -401,7 +402,7 @@
                   parent="radio_libre"
                   action="pm_libre_action"/>
 
-
+-->
 <!-- VIEW campagne RADIO liste en cas d'erreur de saisie -->
 
         <record model="ir.ui.view" id="liste_radio_campagne_form_view">

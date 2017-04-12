@@ -18,6 +18,8 @@ class brutepresse(models.Model):
 	page = fields.Char(string="N° Page")
 	prix = fields.Integer(string="Valeur insertion", default=0)
 	dayforprice = fields.Char(string="Jour PRIX", compute="_get_dayforprice_pr", store="True")
+	mois = fields.Char(string="Mois", compute="_get_mois", store="True")
+	annee = fields.Char(string="Annee", compute="_get_annee", store="True")
 
 	@api.depends('datepr')
 	def _date_definition_pr(self):
@@ -27,6 +29,24 @@ class brutepresse(models.Model):
 				r.dayofdatepr = datetime.strftime(dt_obj,'%A')
 			else:
 				r.dayofdatepr = 'False'
+
+	@api.depends('datepr')
+	def _get_mois(self):
+		for r in self:
+			dt_obj = datetime.strptime(r.datepr,'%Y-%m-%d')
+			if r.mois == 0:
+				r.mois = datetime.strftime(dt_obj,'%B')
+			else:
+				r.mois = 'False'
+
+	@api.depends('datepr')
+	def _get_annee(self):
+		for r in self:
+			dt_obj = datetime.strptime(r.datepr,'%Y-%m-%d')
+			if r.annee == 0:
+				r.annee = datetime.strftime(dt_obj,'%Y')
+			else:
+				r.annee = 'False'
 
 	@api.depends('dayofdatepr')
 	def _get_dayforprice_pr(self):
