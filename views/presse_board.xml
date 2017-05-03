@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <menuitem name="Per Industry" parent="base.menu_board_root" id="per_industry" sequence="1"/>
+
+        <record model="ir.actions.act_window" id="industry_trended">
+            <field name="name">Industry Trended</field>
+            <field name="res_model">fusion.brute</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">graph</field>
+            <field name="view_id" ref="fusion_brute_graph_view"/>
+            <field name="context">{'search_default_datefusiongroup':1,'search_default_dispogroup':1}</field>
+
+        </record>
+
+        <record model="ir.actions.act_window" id="industry_trended_all">
+            <field name="name">Poids globale</field>
+            <field name="res_model">fusion.brute</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="fusion_brute_pivot_view"/>
+        </record>
+        <record model="ir.actions.act_window" id="industry_exposure_this_month">
+            <field name="name">Insustry Exposure this month</field>
+            <field name="res_model">fusion.brute</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="fusion_brute_pivot_view2"/>
+            <field name="context">{'search_default_current_month':1}</field>
+        </record>
+    
+        <record model="ir.ui.view" id="board_tv_form">
+            <field name="name">Poids globale</field>
+            <field name="model">board.board</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="tv Dashboard">
+                    <board style="1">
+                        <column>
+                            <action string="Industry Trended" name="%(industry_trended)d"></action>
+                            <action string="Industry Trended" name="%(industry_trended_all)d"></action>
+                            <action string="Industry Exposure this month" name="%(industry_exposure_this_month)d"></action>
+                        </column>
+                    </board>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="open_industry_trended_tv">
+          <field name="name">Poids globale tv</field>
+          <field name="res_model">board.board</field>
+          <field name="view_type">form</field>
+          <field name="view_mode">form</field>
+          <field name="usage">menu</field>
+          <field name="view_id" ref="board_tv_form"/>
+        </record>
+        <menuitem
+            name="Industry Trended" parent="per_industry"
+            action="open_industry_trended_tv"
+            sequence="2"
+            id="menu_industry_trended_tv" icon="terp-graph"/>
+
+
+
+
+
+<!-- CATEGORY EXPOSURE tv//////////////////////////////////////////////////////////////////////////////////////// -->
+
+        <record model="ir.actions.act_window" id="ranking_companies">
+            <field name="name">Ranking Companies</field>
+            <field name="res_model">fusion.brute</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="fusion_brute_pivot_view2"/>
+            <field name="context">{'search_default_societegroup':1,'search_default_current_month':1}</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="ranking_campaigns">
+            <field name="name">Ranking Campaigns</field>
+            <field name="res_model">fusion.brute</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="fusion_brute_pivot_view2"/>
+            <field name="context">{'search_default_campagnegroup':1,'search_default_current_month':1}</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="ranking_grp">
+            <field name="name">Ranking GRP</field>
+            <field name="res_model">fusion.brute</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="fusion_brute_pivot_view3"/>
+            <field name="context">{'search_default_tv':1,'search_default_radio':1,'search_default_current_month':1}</field>
+        </record>
+
+        <record model="ir.ui.view" id="ranking_this_month">
+            <field name="name">Ranking this month</field>
+            <field name="model">board.board</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Ranking">
+                    <board style="1">
+                        <column>
+                            <action string="Ranking Companies (click on Dépense to sort)" name="%(ranking_companies)d"/>
+                            <action string="Ranking Campaigns (click on Dépense to sort)" name="%(ranking_campaigns)d"/>
+                            <action string="Ranking GRP TV-Radio (click on Dépense to sort)" name="%(ranking_grp)d"/>
+                        </column>
+                    </board>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="open_ranking">
+          <field name="name">Category Exposure tv</field>
+          <field name="res_model">board.board</field>
+          <field name="view_type">form</field>
+          <field name="view_mode">form</field>
+          <field name="usage">menu</field>
+          <field name="view_id" ref="ranking_this_month"/>
+        </record>
+        <menuitem
+            name="Ranking this month" parent="per_industry"
+            action="open_ranking"
+            sequence="3"
+            id="menu_category_exposure"/>
+
+    </data>
+</odoo>

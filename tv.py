@@ -9,6 +9,7 @@ class Brutetele(models.Model):
     name = fields.Char(string="CHAINE")
     date = fields.Datetime(string="Date", default=fields.Date.today)
     datesearch = fields.Date(string=" Date Recherche", compute="_date_definition", store="True")
+    categorytele = fields.Char(string="Catégorie")
     secteurtele = fields.Char(string="SECTEUR")
     societetele = fields.Char(string="SOCIETE")
     typetele = fields.Char(string="TYPE")
@@ -326,6 +327,7 @@ class Listecampagne(models.Model):
     name = fields.Char()
     secteurliste = fields.Char(string="SECTEUR")
     societeliste = fields.Char(string="SOCIETE")
+    categorylistetele = fields.Char(string="CATEGORIE")
     campagneliste = fields.Char(string="SI CAMPAGNE =")
     dureeliste = fields.Integer(string="Durée")
     sicampagnebrute = fields.Char(string="Si Campagne brute =")
@@ -334,7 +336,7 @@ class Listecampagne(models.Model):
     @api.multi
     @api.depends()
     def campagne_definition(self):
-        campagnetele = self.env.cr.execute("UPDATE public.brute_tele SET secteurtele = secteurliste, societetele = societeliste FROM public.liste_campagne WHERE liste_campagne.campagneliste = brute_tele.campagnetele",)
+        campagnetele = self.env.cr.execute("UPDATE public.brute_tele SET secteurtele = secteurliste, societetele = societeliste, categorytele = categorylistetele FROM public.liste_campagne WHERE liste_campagne.campagneliste = brute_tele.campagnetele",)
 
     @api.multi
     @api.depends()

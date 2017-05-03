@@ -9,6 +9,7 @@ class Bruteradio(models.Model):
     name = fields.Char(string="CHAINE")
     date = fields.Datetime(string="DATE", default=fields.Date.today)
     datesearch = fields.Date(string=" Date Recherche", compute="_date_definition", store="True")
+    categoryradio = fields.Char(string="Catégorie")
     secteurradio = fields.Char(string="SECTEUR")
     societeradio = fields.Char(string="SOCIETE")
     typeradio = fields.Char(string="TYPE")
@@ -325,6 +326,7 @@ class Listecampagneradio(models.Model):
     name = fields.Char()
     secteurlisteradio = fields.Char(string="SECTEUR")
     societelisteradio = fields.Char(string="SOCIETE")
+    categorylisteradio = fields.Char(string="CATEGORIE")
     campagnelisteradio = fields.Char(string="SI CAMPAGNE =")
     dureelisteradio = fields.Integer(string="Durée")
     sicampagnebruteradio = fields.Char(string="Si Campagne brute =")
@@ -333,7 +335,7 @@ class Listecampagneradio(models.Model):
     @api.multi
     @api.depends()
     def campagne_radio_definition(self):
-        campagnetele = self.env.cr.execute("UPDATE public.brute_radio SET secteurradio = secteurlisteradio, societeradio = societelisteradio FROM public.listeradio_campagne WHERE listeradio_campagne.campagnelisteradio = brute_radio.campagneradio",)
+        campagnetele = self.env.cr.execute("UPDATE public.brute_radio SET secteurradio = secteurlisteradio, societeradio = societelisteradio, categoryradio = categorylisteradio FROM public.listeradio_campagne WHERE listeradio_campagne.campagnelisteradio = brute_radio.campagneradio",)
 
     @api.multi
     @api.depends()

@@ -76,14 +76,14 @@
 
 <!-- MENU REHETRA -->
         <!-- top level menu: no parent -->
-        <menuitem id="main_radio_menu" name="PIGE RADIO" sequence="2"/>
+        <menuitem id="main_radio_menu" name="Monitoring RADIO" sequence="2"/>
 
         <menuitem id="main_simulation_menu" name="SIMULATION" sequence="4"/>
 
-        <menuitem id="main_audience_menu" name="MESURE AUDIENCE" sequence="5"/>
+        <menuitem id="main_audience_menu" name="MESURE AUDIENCE" sequence="8"/>
         <!-- A first level in the left side menu is needed
              before using action= attribute -->
-        <menuitem id="pige_radio_menu" name="PIGE RADIO"
+        <menuitem id="pige_radio_menu" name="Monitoring RADIO"
                   parent="main_radio_menu"/>
 
         <menuitem id="simulation_radio_menu" name="SIMULATION RADIO"
@@ -92,7 +92,7 @@
         <menuitem id="simulation_tele_menu" name="SIMULATION TV"
                   parent="main_simulation_menu"/>
 
-        <menuitem id="radio_telephonie" name="SECTEUR TELEPHONIE"
+        <menuitem id="radio_telephonie" name="ANALYSE"
                   parent="main_radio_menu"/>
 
         <menuitem id="radio_boisson" name="SECTEUR BOISSON"
@@ -127,6 +127,7 @@
                                 <field name="dayofdaterd"/>
                                 <field name="date"/>
                                 <field name="name"/>
+                                <field name="categoryradio"/>
                                 <field name="secteurradio"/>
                                 <field name="societeradio"/>
                                 <field name="typeradio"/>
@@ -167,6 +168,7 @@
                     <field name="campagneradio"/>
                     <field name="societeradio"/>
                     <field name="name"/>
+                    <field name="categoryradio"/>
                     <field name="secteurradio"/>
                     <field name="emissionradio"/>
                     <filter string="Ce mois-ci" name="current_month" domain="[('date','&lt;',(context_today()+relativedelta(months=1)).strftime('%%Y-%%m-01')), ('date','&gt;=',time.strftime('%%Y-%%m-01'))]"/>
@@ -175,19 +177,18 @@
                     <filter string="Semaine dernière" name="semainederniere" domain="[('date','&gt;=',((context_today()+relativedelta(weeks=-2,days=1,weekday=0)).strftime('%%Y-%%m-%%d'))),('date', '&lt;=', ((context_today()+relativedelta(weeks=-1,weekday=6)).strftime('%%Y-%%m-%%d')))]"/>
                     <separator/>
                     <filter name="chainegroup" string="CHAINE" context="{'group_by':'name'}"/>
+                    <filter name="sectorgroup" string="SECTEUR" context="{'group_by':'secteurradio'}"/>
                     <separator/>
                     <filter name="campagnegroup" string="CAMPAGNE" context="{'group_by':'campagneradio'}"/>
+                    <filter name="societegroup" string="SOCIETE" context="{'group_by':'societeradio'}"/>
                     <filter name="spot" string="SPOT" domain="[('typeradio','=','SPOT')]"/>
                     <filter name="billboardavant" string="Billboard" domain="[('typeradio','!=','SPOT')]"/>
                     <separator/>
-                    <filter name="telephonie" string="TELEPHONIE" domain="[('secteurradio','=','TELEPHONIE')]"/>
-                    <separator/>
-                    <filter name="boissongazeuse" string="BOISSON GAZEUSE" domain="[('secteurradio','=','BOISSON GAZEUSE')]"/>
-                    <filter name="boissonnouveau" string="BOISSON NOUVEAU" domain="[('secteurradio','=','BOISSON NOUVEAU')]"/>
-                    <separator/>
-                    <filter name="savondur" string="SAVON DUR" domain="[('secteurradio','=','SAVON DUR')]"/>
-                    <filter name="savonpoudre" string="SAVON POUDRE" domain="[('secteurradio','=','SAVON POUDRE')]"/>
-                    <filter name="savonliquide" string="SAVON LIQUIDE" domain="[('secteurradio','=','SAVON LIQUIDE')]"/>
+                    <filter name="telephonie" string="TELECOMMUNICATION" domain="[('categoryradio','=','TELECOMMUNICATION')]"/>
+                    <filter name="tv" string="TV" domain="[('categoryradio','=','TV')]"/>
+                    <filter name="boissons" string="BOISSONS" domain="[('categoryradio','=','BOISSONS')]"/>
+                    <filter name="produitlaitier" string="PRODUIT LAITIER" domain="[('secteurradio','=','PRODUIT LAITIER')]"/>
+                    <filter name="nettoyant" string="NETTOYANT" domain="[('categoryradio','=','NETTOYANT')]"/>
                 </search>
             </field>
         </record>
@@ -200,6 +201,7 @@
                 <tree string="Brute Radio Tree">
                     <field name="date"/>
                     <field name="name"/>
+                    <field name="categoryradio"/>
                     <field name="secteurradio"/>
                     <field name="societeradio"/>
                     <field name="typeradio"/>
@@ -219,9 +221,8 @@
             <field name="name">bruteradio.graph</field>
             <field name="model">brute.radio</field>
             <field name="arch" type="xml">
-                <graph string="Analyse">
-                    <field name="date" type="row" interval="day"/>
-                    <field name="campagneradio" type="row"/>
+                <graph string="Analyse" type="pie">
+                    <field name="societeradio" type="row"/>
                     <field name="prixradio" type="measure"/>
                 </graph>
             </field>
@@ -233,8 +234,8 @@
             <field name="model">brute.radio</field>
             <field name="arch" type="xml">
                 <pivot string="TCD">
-                    <field name="campagneradio" type="row"/>
-                    <field name="name" type="col"/>
+                    <field name="societeradio" type="row"/>
+                    <field name="datesearch" type="col"/>
                     <field name="prixradio" type="measure"/>
                 </pivot>
             </field>
@@ -261,10 +262,10 @@
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
             <field name="view_mode">tree,form,graph,calendar,search</field>
-            <field name="context">{'search_default_campagnegroup':1,'search_default_spot':1,'search_default_semainederniere':1,'search_default_current_month':1}</field>
+            <field name="context">{'search_default_campagnegroup':1,'search_default_spot':1,'search_default_semainederniere':1}</field>
         </record>
 
-        <menuitem id="brute_radio_menu" name="BRUTE RADIO" sequence="0"
+        <menuitem id="brute_radio_menu" name="BRUTE RADIO" sequence="1"
                   parent="pige_radio_menu"
                   action="brute_radio_list_action"/>
 
@@ -276,10 +277,10 @@
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
             <field name="view_mode">graph</field>
-            <field name="context">{'search_default_telephonie':1,'search_default_spot':1,'search_default_semainederniere':1,'search_default_current_month':1}</field>
+            <field name="context">{'search_default_spot':1,'search_default_semainederniere':1}</field>
         </record>
 
-        <menuitem id="graph_telephonie_menu" name="Graphique TELEPHONIE" sequence="1"
+        <menuitem id="graph_telephonie_menu" name="Graphique" sequence="1"
                   parent="radio_telephonie"
                   action="graph_telephonie_action"/>
 
@@ -291,7 +292,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
             <field name="view_mode">calendar</field>
-            <field name="context">{'search_default_telephonie':1,'search_default_spot':1,'search_default_semainederniere':1,'search_default_current_month':1}</field>
+            <field name="context">{'search_default_spot':1,'search_default_semainederniere':1}</field>
         </record>
 
         <menuitem id="pm_telephonie_menu" name="Plan média effectif" sequence="2"
@@ -313,7 +314,7 @@
                   parent="pige_radio_menu"
                   action="tcd_telephonie_action"/>  
 
-<!-- Analyse graphique BOISSON-->
+<!-- Analyse graphique BOISSON
 
         <record model="ir.actions.act_window" id="graph_boisson_action">
             <field name="name">Analyse</field>
@@ -321,14 +322,14 @@
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
             <field name="view_mode">graph</field>
-            <field name="context">{'search_default_boissongazeuse':1,'search_default_boissonnouveau':1,'search_default_spot':1,'search_default_semainederniere':1,'search_default_current_month':1}</field>
+            <field name="context">{'search_default_boissongazeuse':1,'search_default_boissonnouveau':1,'search_default_spot':1,'search_default_semainederniere':1}</field>
         </record>
 
         <menuitem id="graph_boisson_menu" name="Graphique BOISSON" sequence="1"
                   parent="radio_boisson"
                   action="graph_boisson_action"/>
-
-<!-- VUE PM SECTEUR BOISSON -->     
+-->
+<!-- VUE PM SECTEUR BOISSON     
         <record model="ir.actions.act_window" id="pm_boisson_action">
             <field name="name">Plan média</field>
             <field name="res_model">brute.radio</field>
@@ -341,7 +342,7 @@
         <menuitem id="pm_boisson_menu" name="Plan média effectif" sequence="2"
                   parent="radio_boisson"
                   action="pm_boisson_action"/>
-
+--> 
 <!-- Analyse graphique SAVONNERIE
 
         <record model="ir.actions.act_window" id="graph_savonnerie_action">
@@ -411,15 +412,16 @@
             <field name="arch" type="xml">
                 <form string="LISTE CAMPAGNE">
                     <header>
-                        <button string="MAJ SOCIETE SECTEUR" type="object" name="campagne_radio_definition" class="oe_highlight"/>
+                        <button string="MAJ SOCIETE SECTEUR CATEGORIE" type="object" name="campagne_radio_definition" class="oe_highlight"/>
                         <button string="MAJ DUREE" type="object" name="dureeliste_radio_definition"/>
                         <button string="MAJ CAMPAGNE" type="object" name="modification_radio_campagne"/>
                     </header>
                     <sheet>
                             <group string="Modification Secteur et Societe">
                                 <field name="campagnelisteradio"/>
-                                <field name="secteurlisteradio"/>
                                 <field name="societelisteradio"/>
+                                <field name="secteurlisteradio"/>
+                                <field name="categorylisteradio"/>
                                 <field name="dureelisteradio"/>
                             </group>
                             <group string="Modification designation Campagne">
@@ -437,9 +439,10 @@
             <field name="model">listeradio.campagne</field>
             <field name="arch" type="xml">
                 <tree string="Liste Campagne Tree">
-                    <field name="secteurlisteradio"/>
-                    <field name="societelisteradio"/>
                     <field name="campagnelisteradio"/>
+                    <field name="societelisteradio"/>
+                    <field name="secteurlisteradio"/>
+                    <field name="categorylisteradio"/>
                     <field name="dureelisteradio"/>
                 </tree>
             </field>

@@ -32,7 +32,7 @@
                     <t t-raw="0"/>
                     <div class="text-center" t-if="not disable_footer">
                         <t t-if="not disable_database_manager">
-                            <a class="" href="/web/database/manager">Manage Databases</a> |
+                            <a class="" href=""></a>
                         </t>
                         <a href="https://agenc.bazarykely.com" target="_blank">Crée par <span>AGEN'C</span></a>
                     </div>

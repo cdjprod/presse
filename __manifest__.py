@@ -31,6 +31,8 @@
         'views/presse.xml',
         'views/radio.xml',
         'views/tv.xml',
+        'views/fusion_brute.xml',
+        'views/presse_board.xml',
         'views/name.xml',
     ],
     # only loaded in demonstration mode

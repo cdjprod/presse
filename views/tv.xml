@@ -76,13 +76,13 @@
 
 <!-- MENU REHETRA -->
         <!-- top level menu: no parent -->
-        <menuitem id="main_tele_menu" name="PIGE TV" sequence="3"/>
+        <menuitem id="main_tele_menu" name="Monitoring TV" sequence="3"/>
         <!-- A first level in the left side menu is needed
              before using action= attribute -->
-        <menuitem id="pige_tele_menu" name="PIGE TV"
+        <menuitem id="pige_tele_menu" name="Monitoring TV"
                   parent="main_tele_menu"/>
 
-        <menuitem id="tele_telephonie" name="SECTEUR TELEPHONIE"
+        <menuitem id="tele_telephonie" name="ANALYSE"
                   parent="main_tele_menu"/>
 
         <menuitem id="tele_boisson" name="SECTEUR BOISSON"
@@ -117,6 +117,7 @@
                                 <field name="dayofdatetv"/>
                                 <field name="date"/>
                                 <field name="name"/>
+                                <field name="categorytele"/>
                                 <field name="secteurtele"/>
                                 <field name="societetele"/>
                                 <field name="typetele"/>
@@ -157,6 +158,7 @@
                     <field name="campagnetele"/>
                     <field name="societetele"/>
                     <field name="name"/>
+                    <field name="categorytele"/>
                     <field name="secteurtele"/>
                     <field name="emissiontele"/>
                     <filter string="Ce mois-ci" name="current_month" domain="[('date','&lt;',(context_today()+relativedelta(months=1)).strftime('%%Y-%%m-01')), ('date','&gt;=',time.strftime('%%Y-%%m-01'))]"/>
@@ -165,19 +167,18 @@
                     <filter string="Semaine dernière" name="semainederniere" domain="[('date','&gt;=',((context_today()+relativedelta(weeks=-2,days=1,weekday=0)).strftime('%%Y-%%m-%%d'))),('date', '&lt;=', ((context_today()+relativedelta(weeks=-1,weekday=6)).strftime('%%Y-%%m-%%d')))]"/>
                     <separator/>
                     <filter name="chainegroup" string="CHAINE" context="{'group_by':'name'}"/>
+                    <filter name="sectorgroup" string="SECTEUR" context="{'group_by':'secteurtele'}"/>
                     <separator/>
                     <filter name="campagnegroup" string="CAMPAGNE" context="{'group_by':'campagnetele'}"/>
+                    <filter name="societegroup" string="SOCIETE" context="{'group_by':'societetele'}"/>
                     <filter name="spot" string="SPOT" domain="[('typetele','=','SPOT')]"/>
                     <filter name="billboardavant" string="Billboard" domain="[('typetele','!=','SPOT')]"/>
                     <separator/>
-                    <filter name="telephonie" string="TELEPHONIE" domain="[('secteurtele','=','TELEPHONIE')]"/>
-                    <separator/>
-                    <filter name="boissongazeuse" string="BOISSON GAZEUSE" domain="[('secteurtele','=','BOISSON GAZEUSE')]"/>
-                    <filter name="boissonnouveau" string="BOISSON NOUVEAU" domain="[('secteurtele','=','BOISSON NOUVEAU')]"/>
-                    <separator/>
-                    <filter name="savondur" string="SAVON DUR" domain="[('secteurtele','=','SAVON DUR')]"/>
-                    <filter name="savonpoudre" string="SAVON POUDRE" domain="[('secteurtele','=','SAVON POUDRE')]"/>
-                    <filter name="savonliquide" string="SAVON LIQUIDE" domain="[('secteurtele','=','SAVON LIQUIDE')]"/>
+                    <filter name="telephonie" string="TELECOMMUNICATION" domain="[('categorytele','=','TELECOMMUNICATION')]"/>
+                    <filter name="tv" string="TV" domain="[('categorytele','=','TV')]"/>
+                    <filter name="boissons" string="BOISSONS" domain="[('categorytele','=','BOISSONS')]"/>
+                    <filter name="produitlaitier" string="PRODUIT LAITIER" domain="[('secteurtele','=','PRODUIT LAITIER')]"/>
+                    <filter name="nettoyant" string="NETTOYANT" domain="[('categorytele','=','NETTOYANT')]"/>
                 </search>
             </field>
         </record>
@@ -190,6 +191,7 @@
                 <tree string="Brute TV Tree">
                     <field name="date"/>
                     <field name="name"/>
+                    <field name="categorytele"/>
                     <field name="secteurtele"/>
                     <field name="societetele"/>
                     <field name="typetele"/>
@@ -210,8 +212,7 @@
             <field name="model">brute.tele</field>
             <field name="arch" type="xml">
                 <graph string="Analyse">
-                    <field name="date" type="row" interval="day"/>
-                    <field name="campagnetele" type="row"/>
+                    <field name="societetele" type="row"/>
                     <field name="prixtele" type="measure"/>
                 </graph>
             </field>
@@ -223,8 +224,8 @@
             <field name="model">brute.tele</field>
             <field name="arch" type="xml">
                 <pivot string="TCD">
-                    <field name="campagnetele" type="row"/>
-                    <field name="name" type="col"/>
+                    <field name="societetele" type="row"/>
+                    <field name="datesearch" type="col"/>
                     <field name="prixtele" type="measure"/>
                 </pivot>
             </field>
@@ -251,7 +252,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
             <field name="view_mode">tree,form,graph,calendar,search</field>
-            <field name="context">{'search_default_campagnegroup':1,'search_default_spot':1,'search_default_current_month':1,'search_default_semainederniere':1}</field>
+            <field name="context">{'search_default_campagnegroup':1,'search_default_spot':1,'search_default_semainederniere':1}</field>
         </record>
 
         <menuitem id="brute_tele_menu" name="BRUTE TV" sequence="0"
@@ -266,10 +267,10 @@
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
             <field name="view_mode">graph</field>
-            <field name="context">{'search_default_telephonie':1,'search_default_spot':1,'search_default_current_month':1,'search_default_semainederniere':1}</field>
+            <field name="context">{'search_default_spot':1,'search_default_semainederniere':1}</field>
         </record>
 
-        <menuitem id="graph_tele_telephonie_menu" name="Graphique TELEPHONIE" sequence="1"
+        <menuitem id="graph_tele_telephonie_menu" name="Graphique" sequence="1"
                   parent="tele_telephonie"
                   action="graph_tele_telephonie_action"/>
 
@@ -281,7 +282,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
             <field name="view_mode">calendar</field>
-            <field name="context">{'search_default_telephonie':1,'search_default_spot':1,'search_default_current_month':1,'search_default_semainederniere':1}</field>
+            <field name="context">{'search_default_spot':1,'search_default_semainederniere':1}</field>
         </record>
 
         <menuitem id="pm_tele_telephonie_menu" name="Plan média effectif" sequence="2"
@@ -303,7 +304,7 @@
                   parent="pige_tele_menu"
                   action="tcd_tele_telephonie_action"/>  
 
-<!-- Analyse graphique BOISSON-->
+<!-- Analyse graphique BOISSON
 
         <record model="ir.actions.act_window" id="graph_tele_boisson_action">
             <field name="name">Analyse</field>
@@ -311,27 +312,27 @@
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
             <field name="view_mode">graph</field>
-            <field name="context">{'search_default_boissongazeuse':1,'search_default_boissonnouveau':1,'search_default_spot':1,'search_default_current_month':1,'search_default_semainederniere':1}</field>
+            <field name="context">{'search_default_boissongazeuse':1,'search_default_boissonnouveau':1,'search_default_spot':1,'search_default_semainederniere':1}</field>
         </record>
 
         <menuitem id="graph_tele_boisson_menu" name="Graphique BOISSON" sequence="1"
                   parent="tele_boisson"
                   action="graph_tele_boisson_action"/>
-
-<!-- VUE PM SECTEUR BOISSON -->     
+-->
+<!-- VUE PM SECTEUR BOISSON     
         <record model="ir.actions.act_window" id="pm_tele_boisson_action">
             <field name="name">Plan média</field>
             <field name="res_model">brute.tele</field>
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
             <field name="view_mode">calendar</field>
-            <field name="context">{'search_default_boissongazeuse':1,'search_default_boissonnouveau':1,'search_default_spot':1,'search_default_current_month':1,'search_default_semainederniere':1}</field>
+            <field name="context">{'search_default_boissongazeuse':1,'search_default_boissonnouveau':1,'search_default_spot':1,'search_default_semainederniere':1}</field>
         </record>
 
         <menuitem id="pm_tele_boisson_menu" name="Plan média effectif" sequence="2"
                   parent="tele_boisson"
                   action="pm_tele_boisson_action"/>
-
+-->
 <!-- Analyse graphique SAVONNERIE
 
         <record model="ir.actions.act_window" id="graph_tele_savonnerie_action">
@@ -400,15 +401,16 @@
             <field name="arch" type="xml">
                 <form string="LISTE CAMPAGNE">
                     <header>
-                        <button string="MAJ SOCIETE SECTEUR" type="object" name="campagne_definition" class="oe_highlight"/>
+                        <button string="MAJ SOCIETE SECTEUR CATEGORIE" type="object" name="campagne_definition" class="oe_highlight"/>
                         <button string="MAJ DUREE" type="object" name="dureeliste_definition"/>
                         <button string="MAJ CAMPAGNE" type="object" name="modification_campagne"/>
                     </header>
                     <sheet>
                             <group string="Modification Secteur et Societe">
                                 <field name="campagneliste"/>
-                                <field name="secteurliste"/>
                                 <field name="societeliste"/>
+                                <field name="secteurliste"/>
+                                <field name="categorylistetele"/>
                                 <field name="dureeliste"/>
                             </group>
                             <group string="Modification designation Campagne">
@@ -426,9 +428,10 @@
             <field name="model">liste.campagne</field>
             <field name="arch" type="xml">
                 <tree string="Liste Campagne Tree">
-                    <field name="secteurliste"/>
-                    <field name="societeliste"/>
                     <field name="campagneliste"/>
+                    <field name="societeliste"/>
+                    <field name="secteurliste"/>
+                    <field name="categorylistetele"/>
                     <field name="dureeliste"/>
                 </tree>
             </field>

@@ -21,6 +21,9 @@ simulationtele_manager,simulationtele.manager,model_simulation_tele,group_manage
 ,,,,,,,
 presse_manager,presse.manager,model_brute_presse,group_manager,1,1,1,1
 listepresse_manager,listepresse.manager,model_liste_presse,group_manager,1,1,1,1
+fusion_manager,fusion.manager,model_fusion_fusionner,group_manager,1,1,1,1
+,,,,,,,
+fusion_read_all,fusion.all,model_fusion_brute,radio_client,1,0,0,0
 ,,,,,,,
 radio_read_all,radio.all,model_brute_radio,radio_client,1,0,0,0
 listeradio_read_all,listeradio.all,model_liste_radio,radio_client,1,0,0,0

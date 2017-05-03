@@ -9,6 +9,7 @@ class brutepresse(models.Model):
 	name = fields.Char(string="Titre", index=True)
 	datepr = fields.Date(string="Date", default=fields.Date.today)
 	dayofdatepr = fields.Char(string="Jour", compute="_date_definition_pr", store="True")
+	categorypr = fields.Char(string="Catégorie")
 	secteurpr = fields.Char(string="Secteur")
 	societepr = fields.Char(string="Societe")
 	campagnepr = fields.Char(string="Campagne")
@@ -87,6 +88,35 @@ class Miseajour(models.Model):
 	def prixall_definition(self):
 		prix = self.env.cr.execute("UPDATE public.brute_presse SET prix = prixform FROM public.liste_presse WHERE liste_presse.format = brute_presse.format AND liste_presse.prixpage ='0' AND brute_presse.dayforprice = liste_presse.jourpr AND brute_presse.name = liste_presse.name AND brute_presse.type = liste_presse.type",)
 		prix = self.env.cr.execute("UPDATE public.brute_presse SET prix = prixform FROM public.liste_presse WHERE liste_presse.format = brute_presse.format AND brute_presse.page = liste_presse.prixpage AND brute_presse.dayforprice = liste_presse.jourpr AND brute_presse.name = liste_presse.name AND brute_presse.type = liste_presse.type",)
+
+
+class Modifcampagnepr(models.Model):
+    _name = 'listepr.campagne'
+
+    name = fields.Char()
+    secteurlistepr = fields.Char(string="SECTEUR")
+    categorylistepr = fields.Char(string="CATEGORIE")
+    societelistepr = fields.Char(string="SOCIETE")
+    campagnelistepr = fields.Char(string="SI CAMPAGNE =")
+    sicampagnebrutepr = fields.Char(string="Si Campagne brute =")
+    alorscampagnebrutepr = fields.Char(string="Alors Campagne brute =")
+
+    @api.multi
+    @api.depends()
+    def campagne_pr_definition(self):
+        campagnepr = self.env.cr.execute("UPDATE public.brute_presse SET secteurpr = secteurlistepr, societepr = societelistepr, categorypr = categorylistepr FROM public.listepr_campagne WHERE listepr_campagne.campagnelistepr = brute_presse.campagnepr",)
+
+    
+    @api.multi
+    @api.depends()
+    def modification_pr_campagne(self):
+        dureetele = self.env.cr.execute("UPDATE public.brute_presse SET campagnepr = alorscampagnebrutepr FROM public.listepr_campagne WHERE listepr_campagne.sicampagnebrutepr = brute_presse.campagnepr",)
+
+
+
+
+
+
 
 
 # class presse(models.Model):

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+<!-- VIEW FORM LISTE RADIO -->
+
+        <menuitem id="main_fusion_menu" name="TV-RADIO-PRESS" sequence="6"/>
+        <menuitem id="fusion_menu" name="TV-RADIO-PRESS" parent="main_fusion_menu" sequence="6"/>
+        <menuitem id="fusion_paramettre_menu" name="PARAMETTRE" parent="main_fusion_menu" sequence="6"/>
+
+        <record model="ir.ui.view" id="fusion_brute_search_view">
+            <field name="name">fusion.search</field>
+            <field name="model">fusion.brute</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="campagne"/>
+                    <field name="category"/>
+                    <field name="societe"/>
+                    <field name="namefusion"/>
+                    <field name="secteur"/>
+                    <filter string="Ce mois-ci" name="current_month" domain="[('datefusion','&lt;',(context_today()+relativedelta(months=1)).strftime('%%Y-%%m-01')), ('datefusion','&gt;=',time.strftime('%%Y-%%m-01'))]"/>
+                    <filter string="Mois Dernier" name="prev_month" domain="[('datefusion','&gt;=',(context_today()-relativedelta(months=1)).strftime('%%Y-%%m-01')),('datefusion','&lt;',time.strftime('%%Y-%%m-01'))]"/>
+                    <separator/>
+                    <filter name="chainegroup" string="SUPPORT" context="{'group_by':'namefusion'}"/>
+                    <filter name="sectorgroup" string="SECTEUR" context="{'group_by':'secteur'}"/>
+                    <filter name="categorygroup" string="Categorie" context="{'group_by':'category'}"/>
+                    <filter name="campagnegroup" string="Campagne" context="{'group_by':'campagne'}"/>
+                    <filter name="datefusiongroup" string="DATE" context="{'group_by':'datefusion'}"/>
+                    <separator/>
+                    <filter name="dispogroup" string="DISPOSITIF" context="{'group_by':'dispo'}"/>
+                    <filter name="societegroup" string="SOCIETE" context="{'group_by':'societe'}"/>
+                    <filter name="spot" string="SPOT" domain="[('type','=','SPOT')]"/>
+                    <filter name="tv" string="TV" domain="[('dispo','=','TV')]"/>
+                    <filter name="radio" string="RADIO" domain="[('dispo','=','RADIO')]"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="fusion_brute_form_view">
+            <field name="name">Fusion form</field>
+            <field name="model">fusion.brute</field>
+            <field name="arch" type="xml">
+                <form string="Fusion Brute">
+                    <sheet>
+                        <group>
+                            <field name="dispo"/>
+                            <field name="datefusion"/>
+                            <field name="namefusion"/>
+                            <field name="category"/>
+                            <field name="secteur"/>
+                            <field name="societe"/>
+                            <field name="type"/>
+                            <field name="emission"/>
+                            <field name="campagne"/>
+                            <field name="version"/>
+                            <field name="duree"/>
+                            <field name="timeslot"/>
+                            <field name="grpensfusion"/>
+                            <field name="prix"/>
+                        </group>                       
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="fusion_brute_tree_view">
+            <field name="name">Fusion Tree</field>
+            <field name="model">fusion.brute</field>
+            <field name="arch" type="xml">
+                <tree string="Fusion TREE">
+                    <field name="dispo"/>
+                    <field name="datefusion"/>
+                    <field name="namefusion"/>
+                    <field name="category"/>
+                    <field name="secteur"/>
+                    <field name="societe"/>
+                    <field name="type"/>
+                    <field name="campagne"/>
+                    <field name="grpensfusion"/>
+                    <field name="prix"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="fusion_brute_action">
+            <field name="name">VUE LISTE</field>
+            <field name="res_model">fusion.brute</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_dispogroup':1,'search_default_current_month':1,'search_default_societegroup':1}</field>
+        </record>
+
+        <menuitem id="fusion_brute_menu" name="Vue liste" sequence="1"
+                  parent="fusion_menu"
+                  action="fusion_brute_action"/>
+
+        <record model="ir.ui.view" id="fusion_brute_pivot_view">
+            <field name="name">fusion.pivot</field>
+            <field name="model">fusion.brute</field>
+            <field name="arch" type="xml">
+                <pivot string="TCD">
+                    <field name="dispo" type="row"/>
+                    <field name="datefusion" type="col" interval="month"/>
+                    <field name="prix" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="fusion_brute_pivot_view2">
+            <field name="name">fusion.pivot</field>
+            <field name="model">fusion.brute</field>
+            <field name="arch" type="xml">
+                <pivot string="TCD">
+                    <field name="category" type="row"/>
+                    <field name="dispo" type="col"/>
+                    <field name="prix" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="fusion_brute_pivot_view3">
+            <field name="name">fusion.pivot</field>
+            <field name="model">fusion.brute</field>
+            <field name="arch" type="xml">
+                <pivot string="TCD">
+                    <field name="campagne" type="row"/>
+                    <field name="dispo" type="col"/>
+                    <field name="grpensfusion" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="pivot_fusion_action">
+            <field name="name">TCD</field>
+            <field name="res_model">fusion.brute</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_mode">pivot</field>
+        </record>
+
+        <menuitem id="pivot_fusion_brute_menu" name="Vue tableau" sequence="2"
+                  parent="fusion_menu"
+                  action="pivot_fusion_action"/>
+
+        <record model="ir.ui.view" id="fusion_brute_graph_view">
+            <field name="name">fusion.graph</field>
+            <field name="model">fusion.brute</field>
+            <field name="arch" type="xml">
+                <graph string="Analyse" type="pie">
+                    <field name="datefusion" type="row" interval="month"/>
+                    <field name="prix" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="fusion_graph_action">
+            <field name="name">Graphique</field>
+            <field name="res_model">fusion.brute</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_mode">graph</field>
+        </record>
+
+        <menuitem id="fusion_graph_menu" name="Vue graphique" sequence="3"
+                  parent="fusion_menu"
+                  action="fusion_graph_action"/>
+
+
+        <record model="ir.ui.view" id="fusion_fusionner_form_view">
+            <field name="name">Mise A jour</field>
+            <field name="model">fusion.fusionner</field>
+            <field name="arch" type="xml">
+                <form string="MISE A JOUR">
+                    <header>
+                        <button string="FUSIONNER" type="object" name="fusion" class="oe_highlight"/>
+                    </header>
+                    <sheet>
+                            <group string="Mise à jour">
+                                <field name="name"/>
+                            </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+<!-- ACTION MISE A JOUR -->
+        <record model="ir.actions.act_window" id="fusion_fusionner_action">
+            <field name="name">Mise A jour</field>
+            <field name="res_model">fusion.fusionner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="fusion_fusionner_menu" name="MISE A JOUR" sequence="80"
+                  parent="fusion_paramettre_menu"
+                  action="fusion_fusionner_action"/>
+
+    </data>
+</odoo>
+
