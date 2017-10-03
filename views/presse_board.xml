@@ -122,5 +122,17 @@
             sequence="3"
             id="menu_category_exposure"/>
 
+        <!--<record model="ir.ui.view" id="dashboard_form_view">
+             <field name="name">dashboard.form.view</field> 
+             <field name="model">board.board</field>
+             <field name="inherit_id" ref="board_my_dash_view" /> 
+                <field name="arch" type="xml"> 
+                    <xpath expr="." position="inside">
+                        <column> 
+                        </column> 
+                    </xpath> 
+                </field>
+         </record>-->
+
     </data>
 </odoo>

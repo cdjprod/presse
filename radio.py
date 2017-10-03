@@ -5,6 +5,7 @@ from odoo import models, fields, api
 
 class Bruteradio(models.Model):
     _name = 'brute.radio'#'openacademy.session'
+    _inherit = 'video.radio'
 
     name = fields.Char(string="CHAINE")
     date = fields.Datetime(string="DATE", default=fields.Date.today)

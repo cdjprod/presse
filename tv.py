@@ -5,6 +5,7 @@ from odoo import models, fields, api
 
 class Brutetele(models.Model):
     _name = 'brute.tele'#'openacademy.session'
+    _inherit = 'video.tele'
 
     name = fields.Char(string="CHAINE")
     date = fields.Datetime(string="Date", default=fields.Date.today)

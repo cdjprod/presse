@@ -23,11 +23,20 @@
                             <field name="prix"/>
                             <field name="dayforprice"/>
                         </group>
+                        <notebook>
+                            <page string="Photo">
+                                    <field name="url" widget="url" placeholder="Ajouter ici le lien de l'image"/>
+                                    <field name="storage" invisible="True"/>
+                                    <field name="image" widget="image" readonly="True" width="700px" height="1024px"/>
+                            </page>
+                            <page string="Suivie">
+                                <group>
+                                    <field name="mois"/>
+                                    <field name="annee"/>
+                                </group>
+                            </page>
+                        </notebook>
                     </sheet>
-                    <group>
-                        <field name="mois"/>
-                        <field name="annee"/>
-                    </group>
     			</form>
     		</field>
     	</record>

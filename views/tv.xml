@@ -136,14 +136,24 @@
                                 <field name="grpjeune"/>
                                 <field name="grpmf"/>
                             </group>
+                            <notebook>
+                                <page string="Video">
+                                    <group>
+                                        <field name="url_tele" widget="url"/>
+                                    </group>
+                                    <button name="regarder_video_tele" string="Regarder" type="object" class="btn-primary"/>
+                                </page>
+                                <page string="Suivie">
+                                    <group>
+                                        <field name="moisgrp"/>
+                                        <field name="dayforgrp"/>
+                                        <field name="annee"/>
+                                        <field name="timeofdatetv"/>
+                                        <field name="timeslottele"/>
+                                    </group>
+                                </page>
+                            </notebook>
                     </sheet>
-                        <group>
-                            <field name="moisgrp"/>
-                            <field name="dayforgrp"/>
-                            <field name="annee"/>
-                            <field name="timeofdatetv"/>
-                            <field name="timeslottele"/>
-                        </group>
                 </form>
             </field>
         </record>
@@ -1032,6 +1042,22 @@
         <menuitem id="maj_tele_menu" name="MISE A JOUR" sequence="80"
                   parent="paramettretele_menu"
                   action="maj_tele_action"/>
+
+        <!--Affichage de la video dont le nature de champ est texte-->
+
+        <record id="video_form_tele" model="ir.ui.view">
+            <field name="name">Video</field>
+            <field name="model">vision.tele</field>
+             <field name="arch" type="xml">
+                <form string="Video tele" edit="false">
+                    <field name="url_tele" widget="html" options="{'style-inline': true}" nolabel="1" readonly="1"/>
+                 <footer>
+                    <button string="Fermer" class="btn-default" special="cancel"/> 
+                 </footer>
+                </form>
+                
+             </field>
+        </record>
 
 
 

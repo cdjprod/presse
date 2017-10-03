@@ -146,14 +146,24 @@
                                 <field name="grpjeune"/>
                                 <field name="grpmf"/>
                             </group>
+                            <notebook>
+                                <page string="Video">
+                                    <group>
+                                        <field name="url_radio" widget="url"/>
+                                    </group>
+                                    <button name="ecouter_video_radio" string="Ecouter" type="object" class="btn-primary"/>
+                                </page>
+                                <page string="Suivie">
+                                    <group>
+                                        <field name="moisgrp"/>
+                                        <field name="dayforgrp"/>
+                                        <field name="annee"/>
+                                        <field name="timeofdaterd"/>
+                                        <field name="timeslotradio"/>
+                                    </group>
+                                </page>
+                            </notebook>
                     </sheet>
-                        <group>
-                            <field name="moisgrp"/>
-                            <field name="dayforgrp"/>
-                            <field name="annee"/>
-                            <field name="timeofdaterd"/>
-                            <field name="timeslotradio"/>
-                        </group>
                 </form>
             </field>
         </record>
@@ -1041,6 +1051,24 @@
         <menuitem id="maj_radio_menu" name="MISE A JOUR" sequence="80"
                   parent="paramettreradio_menu"
                   action="maj_radio_action"/>
+
+
+
+<!--Affichage de la video dont la nature de champ est texte-->
+
+    <record id="video_form_radio" model="ir.ui.view">
+        <field name="name">Video</field>
+        <field name="model">vision.radio</field>
+         <field name="arch" type="xml">
+            <form string="Video Radio" edit="false">
+                <field name="url_radio" widget="html" options="{'style-inline': true}" nolabel="1" readonly="1"/>
+             <footer>
+                <button string="Fermer" class="btn-default" special="cancel"/> 
+             </footer>
+            </form>
+            
+         </field>
+    </record>
 
 
     </data>
