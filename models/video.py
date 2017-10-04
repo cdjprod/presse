@@ -44,7 +44,7 @@ class VideoTele(models.Model):
 
         url_tele = self.url_tele.replace("watch?v=", "embed/")  
         
-        iframe = "<iframe style='height:400px;' width='560' height='315' src='%s' frameborder='0' allowfullscreen></iframe>"%(url_tele)
+        iframe = "<iframe style='height:300PX;' width='900' height='315' src='%s' frameborder='0' allowfullscreen></iframe>"%(url_tele)
         
         return {
                 'name' : "Watch Video",

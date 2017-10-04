@@ -332,6 +332,7 @@ class Listecampagneradio(models.Model):
     dureelisteradio = fields.Integer(string="Durée")
     sicampagnebruteradio = fields.Char(string="Si Campagne brute =")
     alorscampagnebruteradio = fields.Char(string="Alor Campagne brute =")
+    urlradioliste = fields.Char(string="URL Radio")
 
     @api.multi
     @api.depends()
@@ -347,6 +348,11 @@ class Listecampagneradio(models.Model):
     @api.depends()
     def modification_radio_campagne(self):
         dureetele = self.env.cr.execute("UPDATE public.brute_radio SET campagneradio = alorscampagnebruteradio FROM public.listeradio_campagne WHERE listeradio_campagne.sicampagnebruteradio = brute_radio.campagneradio",)
+
+    @api.multi
+    @api.depends()
+    def url_radio_definition(self):
+        urlradioliste = self.env.cr.execute("UPDATE public.brute_radio SET url_radio = urlradioliste FROM public.listeradio_campagne WHERE listeradio_campagne.campagnelisteradio = brute_radio.campagneradio",)
 
 
 #GRP ENSMEBLE

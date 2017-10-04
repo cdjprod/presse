@@ -285,6 +285,7 @@
                     <header>
                         <button string="MAJ SOCIETE SECTEUR CATEGORIE" type="object" name="campagne_pr_definition" class="oe_highlight"/>
                         <button string="MAJ CAMPAGNE" type="object" name="modification_pr_campagne"/>
+                        <button string="MAJ URL" type="object" name="modification_pr_url"/>
                     </header>
                     <sheet>
                             <group string="Modification Secteur et Societe">
@@ -292,6 +293,7 @@
                                 <field name="societelistepr"/>
                                 <field name="secteurlistepr"/>
                                 <field name="categorylistepr"/>
+                                <field name="urlprliste"/>
                             </group>
                             <group string="Modification designation Campagne">
                                 <field name="sicampagnebrutepr"/>

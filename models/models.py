@@ -102,6 +102,7 @@ class Modifcampagnepr(models.Model):
     campagnelistepr = fields.Char(string="SI CAMPAGNE =")
     sicampagnebrutepr = fields.Char(string="Si Campagne brute =")
     alorscampagnebrutepr = fields.Char(string="Alors Campagne brute =")
+    urlprliste = fields.Char(string="URL IMAGE")
 
     @api.multi
     @api.depends()
@@ -113,6 +114,11 @@ class Modifcampagnepr(models.Model):
     @api.depends()
     def modification_pr_campagne(self):
         dureetele = self.env.cr.execute("UPDATE public.brute_presse SET campagnepr = alorscampagnebrutepr FROM public.listepr_campagne WHERE listepr_campagne.sicampagnebrutepr = brute_presse.campagnepr",)
+
+    @api.multi
+    @api.depends()
+    def modification_pr_url(self):
+        urlprliste = self.env.cr.execute("UPDATE public.brute_presse SET url = urlprliste FROM public.listepr_campagne WHERE listepr_campagne.campagnelistepr = brute_presse.campagnepr",)
 
 
 

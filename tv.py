@@ -333,6 +333,7 @@ class Listecampagne(models.Model):
     dureeliste = fields.Integer(string="Durée")
     sicampagnebrute = fields.Char(string="Si Campagne brute =")
     alorscampagnebrute = fields.Char(string="Alors Campagne brute =")
+    urlteleliste = fields.Char(string="URL video")
 
     @api.multi
     @api.depends()
@@ -348,6 +349,11 @@ class Listecampagne(models.Model):
     @api.depends()
     def modification_campagne(self):
         dureetele = self.env.cr.execute("UPDATE public.brute_tele SET campagnetele = alorscampagnebrute FROM public.liste_campagne WHERE liste_campagne.sicampagnebrute = brute_tele.campagnetele",)
+
+    @api.multi
+    @api.depends()
+    def modification_url(self):
+        urlteleliste = self.env.cr.execute("UPDATE public.brute_tele SET url_tele = urlteleliste FROM public.liste_campagne WHERE liste_campagne.campagneliste = brute_tele.campagnetele",)
 
 
 #GRP ENSMEBLE

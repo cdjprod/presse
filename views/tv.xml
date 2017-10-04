@@ -414,6 +414,7 @@
                         <button string="MAJ SOCIETE SECTEUR CATEGORIE" type="object" name="campagne_definition" class="oe_highlight"/>
                         <button string="MAJ DUREE" type="object" name="dureeliste_definition"/>
                         <button string="MAJ CAMPAGNE" type="object" name="modification_campagne"/>
+                        <button string="MAJ URL" type="object" name="modification_url"/>
                     </header>
                     <sheet>
                             <group string="Modification Secteur et Societe">
@@ -422,6 +423,7 @@
                                 <field name="secteurliste"/>
                                 <field name="categorylistetele"/>
                                 <field name="dureeliste"/>
+                                <field name="urlteleliste"/>
                             </group>
                             <group string="Modification designation Campagne">
                                 <field name="sicampagnebrute"/>

@@ -425,6 +425,7 @@
                         <button string="MAJ SOCIETE SECTEUR CATEGORIE" type="object" name="campagne_radio_definition" class="oe_highlight"/>
                         <button string="MAJ DUREE" type="object" name="dureeliste_radio_definition"/>
                         <button string="MAJ CAMPAGNE" type="object" name="modification_radio_campagne"/>
+                        <button string="MAJ URL" type="object" name="url_radio_definition"/>
                     </header>
                     <sheet>
                             <group string="Modification Secteur et Societe">
@@ -433,6 +434,7 @@
                                 <field name="secteurlisteradio"/>
                                 <field name="categorylisteradio"/>
                                 <field name="dureelisteradio"/>
+                                <field name="urlradioliste"/>
                             </group>
                             <group string="Modification designation Campagne">
                                 <field name="sicampagnebruteradio"/>
